@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Web App</title>
+<link rel="manifest" href="manifest.json" />
+<script>
+    if ( typeof navigator.serviceWorker !== 'undefined') {
+        navigator.serviceWorker.register("service-worker.js")
+    }
+</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>My Simple Web App</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="section active">
+            <h2>Welcome to My Web App!</h2>
+            <p>This is a simple web application built from scratch with HTML, CSS, and JavaScript.</p>
+            
+            <div class="counter-section">
+                <h3>Interactive Counter</h3>
+                <p>Current count: <span id="counter">0</span></p>
+                <button id="increment-btn">+</button>
+                <button id="decrement-btn">-</button>
+                <button id="reset-btn">Reset</button>
+            </div>
+
+            <div class="todo-section">
+                <h3>Simple Todo List</h3>
+                <div class="todo-input">
+                    <input type="text" id="todo-input" placeholder="Enter a task...">
+                    <button id="add-todo-btn">Add Task</button>
+                </div>
+                <ul id="todo-list"></ul>
+            </div>
+        </section>
+
+        <section id="about" class="section">
+            <h2>About This App</h2>
+            <p>This is a demonstration of a simple web application featuring:</p>
+            <ul>
+                <li>Responsive design</li>
+                <li>Interactive elements</li>
+                <li>Modern CSS styling</li>
+                <li>JavaScript functionality</li>
+            </ul>
+        </section>
+
+        <section id="contact" class="section">
+            <h2>Contact</h2>
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="4" required></textarea>
+                </div>
+                <button type="submit">Send Message</button>
+            </form>
+            <div id="form-message" class="form-message"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Simple Web App. Built with ❤️</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
