@@ -14,68 +14,121 @@
 </head>
 <body>
     <header>
-        <h1>My Simple Web App</h1>
+        <h1>Simple Web App</h1>
         <nav>
             <ul>
                 <li><a href="#home">Home</a></li>
+                <li><a href="#file-editor">File Editor</a></li>
+                <li><a href="#tools">Tools</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
         <section id="home" class="section active">
-            <h2>Welcome to My Web App!</h2>
-            <p>This is a simple web application built from scratch with HTML, CSS, and JavaScript.</p>
+            <h2>Welcome to Simple Web App!</h2>
+            <p>A clean and modern web application with file editing capabilities, built from scratch with HTML, CSS, and JavaScript.</p>
             
-            <div class="counter-section">
-                <h3>Interactive Counter</h3>
-                <p>Current count: <span id="counter">0</span></p>
-                <button id="increment-btn">+</button>
-                <button id="decrement-btn">-</button>
-                <button id="reset-btn">Reset</button>
-            </div>
-
-            <div class="todo-section">
-                <h3>Simple Todo List</h3>
-                <div class="todo-input">
-                    <input type="text" id="todo-input" placeholder="Enter a task...">
-                    <button id="add-todo-btn">Add Task</button>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>📁 File Editor</h3>
+                    <p>Open, edit, and save local files directly in your browser</p>
                 </div>
-                <ul id="todo-list"></ul>
+                <div class="feature-card">
+                    <h3>🛠️ Developer Tools</h3>
+                    <p>Built-in counter and todo list for quick productivity</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📱 PWA Ready</h3>
+                    <p>Progressive Web App that works offline</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎨 Modern UI</h3>
+                    <p>Beautiful, responsive design with smooth animations</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="file-editor" class="section">
+            <h2>File Editor</h2>
+            <div class="file-editor-container">
+                <div class="file-controls">
+                    <button id="open-file-btn" class="btn-primary">📁 Open File</button>
+                    <button id="save-file-btn" class="btn-primary" disabled>💾 Save File</button>
+                    <button id="new-file-btn" class="btn-secondary">📄 New File</button>
+                    <span id="file-name" class="file-name">No file selected</span>
+                </div>
+                
+                <div class="editor-wrapper">
+                    <div class="editor-toolbar">
+                        <select id="language-select">
+                            <option value="text">Plain Text</option>
+                            <option value="html">HTML</option>
+                            <option value="css">CSS</option>
+                            <option value="javascript">JavaScript</option>
+                            <option value="json">JSON</option>
+                            <option value="markdown">Markdown</option>
+                        </select>
+                        <span class="editor-stats">
+                            Lines: <span id="line-count">0</span> | 
+                            Characters: <span id="char-count">0</span>
+                        </span>
+                    </div>
+                    <textarea id="file-content" 
+                              placeholder="Open a file or create a new one to start editing..."
+                              spellcheck="false"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section id="tools" class="section">
+            <h2>Developer Tools</h2>
+            
+            <div class="tools-grid">
+                <div class="counter-section">
+                    <h3>Interactive Counter</h3>
+                    <p>Current count: <span id="counter">0</span></p>
+                    <div class="counter-controls">
+                        <button id="increment-btn">+</button>
+                        <button id="decrement-btn">-</button>
+                        <button id="reset-btn">Reset</button>
+                    </div>
+                </div>
+
+                <div class="todo-section">
+                    <h3>Quick Todo List</h3>
+                    <div class="todo-input">
+                        <input type="text" id="todo-input" placeholder="Enter a task...">
+                        <button id="add-todo-btn">Add</button>
+                    </div>
+                    <ul id="todo-list"></ul>
+                </div>
             </div>
         </section>
 
         <section id="about" class="section">
             <h2>About This App</h2>
-            <p>This is a demonstration of a simple web application featuring:</p>
-            <ul>
-                <li>Responsive design</li>
-                <li>Interactive elements</li>
-                <li>Modern CSS styling</li>
-                <li>JavaScript functionality</li>
+            <p>A modern, clean web application featuring:</p>
+            <ul class="feature-list">
+                <li>✨ File editing capabilities with syntax highlighting support</li>
+                <li>📱 Progressive Web App (PWA) functionality</li>
+                <li>🎨 Modern, responsive design</li>
+                <li>⚡ Fast and lightweight</li>
+                <li>🛠️ Built-in developer tools</li>
+                <li>💾 Local file operations</li>
             </ul>
-        </section>
-
-        <section id="contact" class="section">
-            <h2>Contact</h2>
-            <form id="contact-form">
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
+            
+            <div class="tech-stack">
+                <h3>Built With</h3>
+                <div class="tech-badges">
+                    <span class="tech-badge">HTML5</span>
+                    <span class="tech-badge">CSS3</span>
+                    <span class="tech-badge">JavaScript</span>
+                    <span class="tech-badge">File System API</span>
+                    <span class="tech-badge">PWA</span>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message:</label>
-                    <textarea id="message" name="message" rows="4" required></textarea>
-                </div>
-                <button type="submit">Send Message</button>
-            </form>
-            <div id="form-message" class="form-message"></div>
+            </div>
         </section>
     </main>
 
