@@ -1,0 +1,5 @@
+{
+  "name": "multi-pwa",
+  "description": "Multi-shortcut PHP PWA for Vercel",
+  "require": {}
+}
