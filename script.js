@@ -39,9 +39,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Close modal with escape key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-            document.querySelectorAll('.modal.active').forEach(modal => {
-                modal.classList.remove('active');
-            });
+            const activeModals = document.querySelectorAll('.modal.active');
+            if (activeModals.length > 0) {
+                activeModals.forEach(modal => {
+                    modal.classList.remove('active');
+                });
+                updateURL(null);
+            }
         }
     });
 
@@ -373,4 +377,87 @@ document.addEventListener('DOMContentLoaded', function() {
     // Apply saved theme on load
     const savedTheme = localStorage.getItem('theme') || 'light';
     applyTheme(savedTheme);
+
+    // URL parameter functionality for direct modal access
+    function updateURL(modalName) {
+        const url = new URL(window.location);
+        if (modalName) {
+            url.searchParams.set('modal', modalName);
+        } else {
+            url.searchParams.delete('modal');
+        }
+        window.history.pushState({}, '', url);
+    }
+
+    // Check URL parameters and open modal if specified
+    const urlParams = new URLSearchParams(window.location.search);
+    const modalParam = urlParams.get('modal');
+    
+    if (modalParam === 'dashboard') {
+        dashboardModal.classList.add('active');
+        initializeDashboard();
+    } else if (modalParam === 'settings') {
+        settingsModal.classList.add('active');
+        initializeSettings();
+    }
+
+    // Override existing modal event listeners to include URL updates
+    dashboardBtn.removeEventListener('click', dashboardBtn.onclick);
+    settingsBtn.removeEventListener('click', settingsBtn.onclick);
+
+    dashboardBtn.addEventListener('click', () => {
+        dashboardModal.classList.add('active');
+        initializeDashboard();
+        updateURL('dashboard');
+    });
+
+    settingsBtn.addEventListener('click', () => {
+        settingsModal.classList.add('active');
+        initializeSettings();
+        updateURL('settings');
+    });
+
+    // Update close functionality
+    closeBtns.forEach(btn => {
+        const originalHandler = btn.onclick;
+        btn.removeEventListener('click', originalHandler);
+        btn.addEventListener('click', (e) => {
+            const modalId = e.target.getAttribute('data-modal');
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                updateURL(null);
+            }
+        });
+    });
+
+    // Update window click listener
+    const originalWindowHandler = window.onclick;
+    window.removeEventListener('click', originalWindowHandler);
+    window.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal')) {
+            e.target.classList.remove('active');
+            updateURL(null);
+        }
+    });
+
+    // Handle browser back/forward buttons
+    window.addEventListener('popstate', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const modalParam = urlParams.get('modal');
+        
+        // Close all modals first
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.classList.remove('active');
+        });
+        
+        // Open the appropriate modal based on URL
+        if (modalParam === 'dashboard') {
+            dashboardModal.classList.add('active');
+            initializeDashboard();
+        } else if (modalParam === 'settings') {
+            settingsModal.classList.add('active');
+            initializeSettings();
+        }
+    });
 });
