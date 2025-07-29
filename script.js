@@ -303,19 +303,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // Open the appropriate modal based on URL and set window properties
         if (modalParam === 'dashboard') {
             document.title = 'Dashboard - MyApp';
-            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#2196f3');
             dashboardModal.classList.add('active');
             initializeDashboard();
             if (mainPage) mainPage.style.display = 'none';
         } else if (modalParam === 'settings') {
             document.title = 'Settings - MyApp';
-            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#4caf50');
             settingsModal.classList.add('active');
             initializeSettings();
             if (mainPage) mainPage.style.display = 'none';
         } else {
             document.title = 'MyApp';
-            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#2196f3');
         }
     });
 });

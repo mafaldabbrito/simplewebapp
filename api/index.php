@@ -28,7 +28,7 @@ if ($route !== 'main' && !$modal) {
             $title = 'Settings';
             $content = 'Welcome to the Settings Page!';
             $icon = '/icons/settings.png';
-            $themeColor = '#6b7280';
+            $themeColor = '#8b4513';
             break;
         case 'dashboard':
         default:
