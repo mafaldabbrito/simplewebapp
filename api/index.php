@@ -2,9 +2,11 @@
 // Determine route
 $route = $_GET['page'] ?? 'dashboard';
 
+// Single manifest file for the entire app
+$manifest = 'manifest.json';
+
 switch ($route) {
     case 'settings':
-        $manifest = 'manifest-settings.json';
         $title = 'Settings';
         $content = 'Welcome to the Settings Page!';
         $icon = '/icons/settings.png';
@@ -12,7 +14,6 @@ switch ($route) {
         break;
     case 'dashboard':
     default:
-        $manifest = 'manifest-dashboard.json';
         $title = 'Dashboard';
         $content = 'Welcome to the Dashboard!';
         $icon = '/icons/dashboard.png';
