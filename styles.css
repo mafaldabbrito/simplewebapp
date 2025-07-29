@@ -118,11 +118,11 @@ body {
 
 .modal-content {
     background: white;
-    width: 95%;
-    height: 95%;
-    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    box-shadow: none;
     display: flex;
     flex-direction: column;
 }
@@ -487,8 +487,8 @@ body {
     }
     
     .modal-content {
-        width: 98%;
-        height: 98%;
+        width: 100%;
+        height: 100%;
     }
     
     .container {
