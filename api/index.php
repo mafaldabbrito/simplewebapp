@@ -1,17 +1,28 @@
 <?php
 // Check if specific page is requested, otherwise show main page
 $route = $_GET['page'] ?? 'main';
+$modal = $_GET['modal'] ?? null;
 
-// Single manifest file for the entire app
-$manifest = 'manifest.json';
-
-// If it's the main page or no page specified, show the new modal interface
-if ($route === 'main' || !isset($_GET['page'])) {
+// Determine which manifest and settings to use
+if ($modal === 'dashboard') {
+    $manifest = 'manifest-dashboard.json';
+    $title = 'Dashboard - MyApp';
+    $icon = '/icons/dashboard.png';
+    $themeColor = '#2196f3';
+} elseif ($modal === 'settings') {
+    $manifest = 'manifest-settings.json';
+    $title = 'Settings - MyApp';
+    $icon = '/icons/settings.png';
+    $themeColor = '#4caf50';
+} else {
+    $manifest = 'manifest.json';
     $title = 'MyApp';
     $icon = '/icons/dashboard.png';
     $themeColor = '#2196f3';
-} else {
-    // Legacy support for direct page access
+}
+
+// Legacy support for direct page access
+if ($route !== 'main' && !$modal) {
     switch ($route) {
         case 'settings':
             $title = 'Settings';

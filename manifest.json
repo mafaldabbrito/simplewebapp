@@ -24,8 +24,8 @@
     {
       "name": "Dashboard",
       "short_name": "Dashboard",
-      "description": "Go to the Dashboard page",
-      "url": "/?page=dashboard",
+      "description": "Go directly to the Dashboard",
+      "url": "/?modal=dashboard",
       "icons": [
         {
           "src": "/icons/dashboard.png",
@@ -36,9 +36,9 @@
     },
     {
       "name": "Settings",
-      "short_name": "Settings",
-      "description": "Go to the Settings page",
-      "url": "/?page=settings",
+      "short_name": "Settings", 
+      "description": "Go directly to Settings",
+      "url": "/?modal=settings",
       "icons": [
         {
           "src": "/icons/settings.png",

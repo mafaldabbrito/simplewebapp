@@ -1,0 +1,17 @@
+{
+  "name": "Dashboard - MyApp",
+  "short_name": "Dashboard",
+  "start_url": "/?modal=dashboard",
+  "display": "standalone",
+  "scope": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#2196f3",
+  "icons": [
+    {
+      "src": "/icons/dashboard.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

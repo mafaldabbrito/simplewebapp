@@ -393,12 +393,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const modalParam = urlParams.get('modal');
     
+    // Set window title and theme based on the modal parameter
     if (modalParam === 'dashboard') {
+        document.title = 'Dashboard - MyApp';
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#2196f3');
         dashboardModal.classList.add('active');
         initializeDashboard();
+        
+        // Hide main page when opened directly via shortcut
+        const mainPage = document.getElementById('main-page');
+        if (mainPage) {
+            mainPage.style.display = 'none';
+        }
     } else if (modalParam === 'settings') {
+        document.title = 'Settings - MyApp';
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#4caf50');
         settingsModal.classList.add('active');
         initializeSettings();
+        
+        // Hide main page when opened directly via shortcut
+        const mainPage = document.getElementById('main-page');
+        if (mainPage) {
+            mainPage.style.display = 'none';
+        }
+    } else {
+        document.title = 'MyApp';
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#2196f3');
     }
 
     // Override existing modal event listeners to include URL updates
@@ -406,12 +426,16 @@ document.addEventListener('DOMContentLoaded', function() {
     settingsBtn.removeEventListener('click', settingsBtn.onclick);
 
     dashboardBtn.addEventListener('click', () => {
+        document.title = 'Dashboard - MyApp';
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#2196f3');
         dashboardModal.classList.add('active');
         initializeDashboard();
         updateURL('dashboard');
     });
 
     settingsBtn.addEventListener('click', () => {
+        document.title = 'Settings - MyApp';
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#4caf50');
         settingsModal.classList.add('active');
         initializeSettings();
         updateURL('settings');
@@ -426,6 +450,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.classList.remove('active');
+                document.title = 'MyApp';
+                document.querySelector('meta[name="theme-color"]').setAttribute('content', '#2196f3');
+                
+                // Show main page
+                const mainPage = document.getElementById('main-page');
+                if (mainPage) {
+                    mainPage.style.display = 'flex';
+                }
+                
                 updateURL(null);
             }
         });
@@ -437,6 +470,15 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('click', (e) => {
         if (e.target.classList.contains('modal')) {
             e.target.classList.remove('active');
+            document.title = 'MyApp';
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#2196f3');
+            
+            // Show main page
+            const mainPage = document.getElementById('main-page');
+            if (mainPage) {
+                mainPage.style.display = 'flex';
+            }
+            
             updateURL(null);
         }
     });
@@ -451,13 +493,28 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.classList.remove('active');
         });
         
-        // Open the appropriate modal based on URL
+        // Show main page
+        const mainPage = document.getElementById('main-page');
+        if (mainPage) {
+            mainPage.style.display = 'flex';
+        }
+        
+        // Open the appropriate modal based on URL and set window properties
         if (modalParam === 'dashboard') {
+            document.title = 'Dashboard - MyApp';
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#2196f3');
             dashboardModal.classList.add('active');
             initializeDashboard();
+            if (mainPage) mainPage.style.display = 'none';
         } else if (modalParam === 'settings') {
+            document.title = 'Settings - MyApp';
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#4caf50');
             settingsModal.classList.add('active');
             initializeSettings();
+            if (mainPage) mainPage.style.display = 'none';
+        } else {
+            document.title = 'MyApp';
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#2196f3');
         }
     });
 });
