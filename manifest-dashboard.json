@@ -5,7 +5,7 @@
   "display": "standalone",
   "scope": "/",
   "background_color": "#ffffff",
-  "theme_color": "#2196f3",
+  "theme_color": "#6b7280",
   "icons": [
     {
       "src": "/icons/dashboard.png",

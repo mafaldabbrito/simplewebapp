@@ -8,17 +8,17 @@ if ($modal === 'dashboard') {
     $manifest = 'manifest-dashboard.json';
     $title = 'Dashboard - MyApp';
     $icon = '/icons/dashboard.png';
-    $themeColor = '#2196f3';
+    $themeColor = '#6b7280';
 } elseif ($modal === 'settings') {
     $manifest = 'manifest-settings.json';
     $title = 'Settings - MyApp';
     $icon = '/icons/settings.png';
-    $themeColor = '#4caf50';
+    $themeColor = '#8b4513';
 } else {
     $manifest = 'manifest.json';
     $title = 'MyApp';
     $icon = '/icons/dashboard.png';
-    $themeColor = '#2196f3';
+    $themeColor = '#6b7280';
 }
 
 // Legacy support for direct page access
@@ -28,14 +28,14 @@ if ($route !== 'main' && !$modal) {
             $title = 'Settings';
             $content = 'Welcome to the Settings Page!';
             $icon = '/icons/settings.png';
-            $themeColor = '#4caf50';
+            $themeColor = '#6b7280';
             break;
         case 'dashboard':
         default:
             $title = 'Dashboard';
             $content = 'Welcome to the Dashboard!';
             $icon = '/icons/dashboard.png';
-            $themeColor = '#2196f3';
+            $themeColor = '#6b7280';
             break;
     }
 }
@@ -157,35 +157,6 @@ if ($route !== 'main' && !$modal) {
                                     <option value="fr">Français</option>
                                     <option value="de">Deutsch</option>
                                 </select>
-                            </div>
-
-                            <div class="settings-group">
-                                <h3>File Editor</h3>
-                                <div class="file-editor-controls">
-                                    <button id="new-file-btn" class="btn btn-primary">New File</button>
-                                    <button id="open-file-btn" class="btn btn-secondary">Open File</button>
-                                    <button id="save-file-btn" class="btn btn-success" disabled>Save File</button>
-                                </div>
-                                
-                                <div class="file-info">
-                                    <span>File: <span id="file-name">untitled.txt</span></span>
-                                    <span>Language: 
-                                        <select id="editor-language-select" class="language-select">
-                                            <option value="text">Plain Text</option>
-                                            <option value="javascript">JavaScript</option>
-                                            <option value="html">HTML</option>
-                                            <option value="css">CSS</option>
-                                            <option value="json">JSON</option>
-                                        </select>
-                                    </span>
-                                </div>
-                                
-                                <textarea id="file-content" class="file-editor" placeholder="Start typing your code here..."></textarea>
-                                
-                                <div class="editor-stats">
-                                    <span>Lines: <span id="line-count">1</span></span>
-                                    <span>Characters: <span id="char-count">0</span></span>
-                                </div>
                             </div>
                         </div>
                     </div>

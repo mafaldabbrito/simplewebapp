@@ -160,9 +160,6 @@ document.addEventListener('DOMContentLoaded', function() {
         languageSelect.addEventListener('change', () => {
             localStorage.setItem('language', languageSelect.value);
         });
-
-        // File editor functionality
-        initializeFileEditor();
     }
 
     function applyTheme(theme) {
@@ -176,202 +173,6 @@ document.addEventListener('DOMContentLoaded', function() {
             body.classList.add('light-theme');
         }
         // 'auto' theme would require media query detection
-    }
-
-    // File Editor functionality
-    function initializeFileEditor() {
-        const openFileBtn = document.getElementById('open-file-btn');
-        const saveFileBtn = document.getElementById('save-file-btn');
-        const newFileBtn = document.getElementById('new-file-btn');
-        const fileNameSpan = document.getElementById('file-name');
-        const fileContent = document.getElementById('file-content');
-        const languageSelect = document.getElementById('editor-language-select');
-        const lineCount = document.getElementById('line-count');
-        const charCount = document.getElementById('char-count');
-
-        let currentFileHandle = null;
-        let hasUnsavedChanges = false;
-
-        // Update stats
-        function updateEditorStats() {
-            const content = fileContent.value;
-            const lines = content.split('\n').length;
-            const chars = content.length;
-            
-            lineCount.textContent = lines;
-            charCount.textContent = chars;
-        }
-
-        // Update language based on file extension
-        function updateLanguageFromFileName(fileName) {
-            const extension = fileName.split('.').pop().toLowerCase();
-            const languageMap = {
-                'js': 'javascript',
-                'html': 'html',
-                'css': 'css',
-                'json': 'json',
-                'txt': 'text'
-            };
-            
-            if (languageMap[extension]) {
-                languageSelect.value = languageMap[extension];
-            }
-        }
-
-        // File operations
-        async function openFile() {
-            try {
-                if (!window.showOpenFilePicker) {
-                    // Fallback for browsers that don't support File System Access API
-                    const input = document.createElement('input');
-                    input.type = 'file';
-                    input.accept = '.txt,.html,.css,.js,.json,.md';
-                    input.onchange = (e) => {
-                        const file = e.target.files[0];
-                        if (file) {
-                            const reader = new FileReader();
-                            reader.onload = (e) => {
-                                fileContent.value = e.target.result;
-                                fileNameSpan.textContent = file.name;
-                                updateLanguageFromFileName(file.name);
-                                updateEditorStats();
-                                saveFileBtn.disabled = true;
-                            };
-                            reader.readAsText(file);
-                        }
-                    };
-                    input.click();
-                    return;
-                }
-
-                const [fileHandle] = await window.showOpenFilePicker({
-                    types: [
-                        {
-                            description: 'Text files',
-                            accept: {
-                                'text/*': ['.txt', '.html', '.css', '.js', '.json', '.md']
-                            }
-                        }
-                    ]
-                });
-
-                const file = await fileHandle.getFile();
-                const content = await file.text();
-                
-                fileContent.value = content;
-                fileNameSpan.textContent = file.name;
-                currentFileHandle = fileHandle;
-                saveFileBtn.disabled = false;
-                hasUnsavedChanges = false;
-                
-                updateLanguageFromFileName(file.name);
-                updateEditorStats();
-            } catch (err) {
-                if (err.name !== 'AbortError') {
-                    alert('Error opening file: ' + err.message);
-                }
-            }
-        }
-
-        async function saveFile() {
-            if (!currentFileHandle) {
-                return saveAsFile();
-            }
-
-            try {
-                const writable = await currentFileHandle.createWritable();
-                await writable.write(fileContent.value);
-                await writable.close();
-                hasUnsavedChanges = false;
-                alert('File saved successfully!');
-            } catch (err) {
-                alert('Error saving file: ' + err.message);
-            }
-        }
-
-        async function saveAsFile() {
-            try {
-                if (!window.showSaveFilePicker) {
-                    // Fallback: download file
-                    const blob = new Blob([fileContent.value], { type: 'text/plain' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = fileNameSpan.textContent;
-                    a.click();
-                    URL.revokeObjectURL(url);
-                    return;
-                }
-
-                const fileHandle = await window.showSaveFilePicker({
-                    suggestedName: fileNameSpan.textContent,
-                    types: [
-                        {
-                            description: 'Text files',
-                            accept: {
-                                'text/*': ['.txt', '.html', '.css', '.js', '.json', '.md']
-                            }
-                        }
-                    ]
-                });
-
-                const writable = await fileHandle.createWritable();
-                await writable.write(fileContent.value);
-                await writable.close();
-                
-                currentFileHandle = fileHandle;
-                fileNameSpan.textContent = (await fileHandle.getFile()).name;
-                hasUnsavedChanges = false;
-                saveFileBtn.disabled = false;
-                alert('File saved successfully!');
-            } catch (err) {
-                if (err.name !== 'AbortError') {
-                    alert('Error saving file: ' + err.message);
-                }
-            }
-        }
-
-        function newFile() {
-            if (hasUnsavedChanges && !confirm('You have unsaved changes. Are you sure you want to create a new file?')) {
-                return;
-            }
-            
-            fileContent.value = '';
-            fileNameSpan.textContent = 'untitled.txt';
-            languageSelect.value = 'text';
-            currentFileHandle = null;
-            hasUnsavedChanges = false;
-            saveFileBtn.disabled = true;
-            updateEditorStats();
-        }
-
-        // Event listeners
-        openFileBtn.addEventListener('click', openFile);
-        saveFileBtn.addEventListener('click', saveFile);
-        newFileBtn.addEventListener('click', newFile);
-        
-        fileContent.addEventListener('input', () => {
-            hasUnsavedChanges = true;
-            updateEditorStats();
-        });
-
-        languageSelect.addEventListener('change', () => {
-            const language = languageSelect.value;
-            const extensions = {
-                'javascript': 'js',
-                'html': 'html',
-                'css': 'css',
-                'json': 'json',
-                'text': 'txt'
-            };
-            
-            if (extensions[language] && fileNameSpan.textContent === 'untitled.txt') {
-                fileNameSpan.textContent = `untitled.${extensions[language]}`;
-            }
-        });
-
-        // Initial setup
-        updateEditorStats();
     }
 
     // Apply saved theme on load
@@ -396,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set window title and theme based on the modal parameter
     if (modalParam === 'dashboard') {
         document.title = 'Dashboard - MyApp';
-        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#2196f3');
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#6b7280');
         dashboardModal.classList.add('active');
         initializeDashboard();
         
@@ -407,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     } else if (modalParam === 'settings') {
         document.title = 'Settings - MyApp';
-        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#4caf50');
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#8b4513');
         settingsModal.classList.add('active');
         initializeSettings();
         
@@ -418,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     } else {
         document.title = 'MyApp';
-        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#2196f3');
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#6b7280');
     }
 
     // Override existing modal event listeners to include URL updates
