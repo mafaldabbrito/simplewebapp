@@ -101,31 +101,15 @@ self.addEventListener('fetch', function(event) {
     event.respondWith(
       fetch(event.request)
         .then(function(response) {
-          // Cache successful API responses for offline fallback with timestamp
           if (response.status === 200) {
-            const responseClone = response.clone();
-            const responseWithTimestamp = addTimestampToResponse(responseClone);
-            caches.open(CACHE_NAME)
-              .then(function(cache) {
-                cache.put(event.request, responseWithTimestamp);
-              });
+            console.log("Successful request")
           }
           return response;
         })
         .catch(function() {
-          // If network fails, try to serve cached version
-          return caches.match(event.request)
-            .then(function(cachedResponse) {
-              if (cachedResponse) {
-                return cachedResponse;
-              }
-              // If no cached version, return offline page for HTML requests
-              if (event.request.headers.get('accept').includes('text/html')) {
-                return caches.match(OFFLINE_URL);
-              }
-              // For other requests, let them fail naturally
-              throw new Error('No cached response available');
-            });
+          // If network fails, redirect to offline page
+          console.log("Network request failed, serving offline page");
+          return caches.match(OFFLINE_URL);
         })
     );
     return;
