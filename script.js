@@ -161,4 +161,60 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Offline/Online detection functionality
+    function initializeOfflineDetection() {
+        let isOnline = navigator.onLine;
+        
+        function updateOnlineStatus() {
+            const wasOnline = isOnline;
+            isOnline = navigator.onLine;
+            
+            if (!isOnline && wasOnline) {
+                // Just went offline - notify service worker
+                console.log('User went offline');
+                if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                    navigator.serviceWorker.controller.postMessage({
+                        type: 'USER_OFFLINE'
+                    });
+                }
+            } else if (isOnline && !wasOnline) {
+                // Just came back online - notify service worker
+                console.log('User came back online');
+                if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                    navigator.serviceWorker.controller.postMessage({
+                        type: 'USER_ONLINE'
+                    });
+                }
+            }
+        }
+        
+        // Listen for online/offline events
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        
+        // Optional: Periodic network check for more reliable detection
+        setInterval(() => {
+            // This makes a simple request to check actual connectivity
+            fetch('/manifest.json', { 
+                method: 'HEAD',
+                cache: 'no-cache'
+            })
+            .then(() => {
+                if (!navigator.onLine) {
+                    // Browser thinks we're offline but we can actually make requests
+                    window.dispatchEvent(new Event('online'));
+                }
+            })
+            .catch(() => {
+                if (navigator.onLine) {
+                    // Browser thinks we're online but requests are failing
+                    window.dispatchEvent(new Event('offline'));
+                }
+            });
+        }, 30000); // Check every 30 seconds
+    }
+    
+    // Initialize offline detection
+    initializeOfflineDetection();
+
 });

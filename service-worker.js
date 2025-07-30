@@ -96,34 +96,17 @@ self.addEventListener('fetch', function(event) {
     return;
   }
 
-  // Handle API requests with network-first strategy
-  if (event.request.url.includes('/api/')) {
-    event.respondWith(
-      fetch(event.request)
-        .then(function(response) {
-          if (response.status === 200) {
-            console.log("Successful request");
-            return response;
-          } else {
-            // If request fails (non-200 status), redirect to offline page
-            console.log("Request failed with status:", response.status, "serving offline page");
-            return caches.match(OFFLINE_URL);
-          }
-        })
-        .catch(function() {
-          // If network fails, redirect to offline page
-          console.log("Network request failed, serving offline page");
-          return caches.match(OFFLINE_URL);
-        })
-    );
-    return;
-  }
-
-  // Default: try network first, then cache
+  // Handle API requests and all non-static requests - serve offline page when network fails
   event.respondWith(
     fetch(event.request)
       .catch(function() {
-        return caches.match(event.request);
+        // If network fails, serve offline page for navigation requests
+        if (event.request.mode === 'navigate') {
+          console.log("Network request failed, serving offline page");
+          return caches.match(OFFLINE_URL);
+        }
+        // For other requests, just fail
+        return Response.error();
       })
   );
 });
@@ -173,5 +156,31 @@ function addTimestampToResponse(response) {
     headers: headers
   });
 }
+
+// Listen for messages from the main application
+self.addEventListener('message', function(event) {
+  if (event.data && event.data.type) {
+    switch (event.data.type) {
+      case 'USER_OFFLINE':
+        console.log('Service Worker: User went offline');
+        // You can implement additional offline logic here
+        // For example, pre-cache critical data or change caching strategies
+        break;
+        
+      case 'USER_ONLINE':
+        console.log('Service Worker: User came back online');
+        // You can implement online logic here
+        // For example, sync cached data or update resources
+        break;
+        
+      case 'SKIP_WAITING':
+        self.skipWaiting();
+        break;
+        
+      default:
+        console.log('Service Worker: Unknown message type:', event.data.type);
+    }
+  }
+});
 
 
