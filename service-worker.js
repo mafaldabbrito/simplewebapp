@@ -5,8 +5,6 @@ const MAX_CACHE_SIZE = 50; // Maximum number of cached items per cache
 
 // Files to cache for offline functionality
 const CACHE_URLS = [
-  '/',
-  '/api/',
   '/styles.css',
   '/script.js',
   '/offline.html',
