@@ -170,9 +170,4 @@ function isStaticAsset(url) {
          url.includes('manifest');
 }
 
-// Handle messages from the main thread
-self.addEventListener('message', function(event) {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
-});
+

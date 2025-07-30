@@ -131,10 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('meta[name="theme-color"]').setAttribute('content', '#6b7280');
     }
 
-    // Override existing modal event listeners to include URL updates
-    dashboardBtn.removeEventListener('click', dashboardBtn.onclick);
-    settingsBtn.removeEventListener('click', settingsBtn.onclick);
-
+    // Add modal event listeners to include URL updates
     Object.entries(modalConfigs).forEach(([modalName, config]) => {
         config.btn.addEventListener('click', () => {
             document.title = config.title;
@@ -144,10 +141,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Update close functionality
+    // Add close button functionality
     closeBtns.forEach(btn => {
-        const originalHandler = btn.onclick;
-        btn.removeEventListener('click', originalHandler);
         btn.addEventListener('click', (e) => {
             const modalId = e.target.getAttribute('data-modal');
             const modal = document.getElementById(modalId);
@@ -166,56 +161,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Update window click listener
-    // const originalWindowHandler = window.onclick;
-    // window.removeEventListener('click', originalWindowHandler);
-    // window.addEventListener('click', (e) => {
-    //     if (e.target.classList.contains('modal')) {
-    //         e.target.classList.remove('active');
-    //         document.title = 'MyApp';
-    //         document.querySelector('meta[name="theme-color"]').setAttribute('content', '#2196f3');
-            
-    //         // Show main page
-    //         const mainPage = document.getElementById('main-page');
-    //         if (mainPage) {
-    //             mainPage.style.display = 'flex';
-    //         }
-            
-    //         updateURL(null);
-    //     }
-    // });
-
-    // // Handle browser back/forward buttons
-    // window.addEventListener('popstate', () => {
-    //     const urlParams = new URLSearchParams(window.location.search);
-    //     const modalParam = urlParams.get('modal');
-        
-    //     // Close all modals first
-    //     document.querySelectorAll('.modal').forEach(modal => {
-    //         modal.classList.remove('active');
-    //     });
-        
-    //     // Show main page
-    //     const mainPage = document.getElementById('main-page');
-    //     if (mainPage) {
-    //         mainPage.style.display = 'flex';
-    //     }
-        
-    //     // Open the appropriate modal based on URL and set window properties
-    //     if (modalParam === 'dashboard') {
-    //         document.title = 'Dashboard - MyApp';
-    //         dashboardModal.classList.add('active');
-    //         initializeDashboard();
-    //         if (mainPage) mainPage.style.display = 'none';
-    //     } else if (modalParam === 'settings') {
-    //         document.title = 'Settings - MyApp';
-    //         settingsModal.classList.add('active');
-    //         initializeSettings();
-    //         if (mainPage) mainPage.style.display = 'none';
-    //     } else {
-    //         document.title = 'MyApp';
-    //     }
-    // });
 
     // Connection status monitoring
     function updateConnectionStatus() {

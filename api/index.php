@@ -56,8 +56,8 @@ if ($route !== 'main' && !$modal) {
     <!-- Main Page -->
     <div id="main-page" class="main-page">
         <header class="main-header">
-            <h1>MyApp</h1>
-            <p>Welcome to your application</p>
+            <h1>EOW PWA Demo</h1>
+            <p>Demo for the EOW PWA feature</p>
         </header>
         
         <main class="main-content">
@@ -92,7 +92,7 @@ if ($route !== 'main' && !$modal) {
                     <div class="container">
                         <div class="card">
                             <h2>Dashboard</h2>
-                            <p>Welcome to your dashboard! Here you can view your data and analytics.</p>
+                            <p>Welcome to your dashboard!</p>
                             
                             <div class="counter-section">
                                 <h3>Counter</h3>
@@ -147,16 +147,6 @@ if ($route !== 'main' && !$modal) {
                                     Enable notifications
                                 </label>
                             </div>
-
-                            <div class="settings-group">
-                                <h3>Language</h3>
-                                <select id="language-select" class="form-control">
-                                    <option value="en">English</option>
-                                    <option value="es">Español</option>
-                                    <option value="fr">Français</option>
-                                    <option value="de">Deutsch</option>
-                                </select>
-                            </div>
                         </div>
                     </div>
                 </section>
@@ -164,83 +154,6 @@ if ($route !== 'main' && !$modal) {
         </div>
     </div>
 
-    <script src="/script.js"></script>
-    
-    <?php else: ?>
-    <!-- Legacy page support -->
-    <div style="
-        margin: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: #f0f2f5;
-        color: #333;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        text-align: center;
-    ">
-        <header style="
-            background-color: <?php echo $themeColor; ?>;
-            color: white;
-            width: 100%;
-            padding: 1rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        ">
-            <h1 style="margin: 1rem 0; font-size: 2rem;"><?php echo $title; ?></h1>
-        </header>
-
-        <main style="padding: 2rem;">
-            <p style="font-size: 1.2rem; margin-bottom: 2rem;"><?php echo $content; ?></p>
-            <nav>
-                <a href="/" style="
-                    display: inline-block;
-                    margin: 0.5rem 1rem;
-                    padding: 0.5rem 1rem;
-                    background-color: #fff;
-                    border: 2px solid <?php echo $themeColor; ?>;
-                    color: <?php echo $themeColor; ?>;
-                    border-radius: 5px;
-                    text-decoration: none;
-                    font-weight: bold;
-                    transition: all 0.3s ease;
-                ">Back to Main</a>
-                <a href="?page=dashboard" style="
-                    display: inline-block;
-                    margin: 0.5rem 1rem;
-                    padding: 0.5rem 1rem;
-                    background-color: #fff;
-                    border: 2px solid <?php echo $themeColor; ?>;
-                    color: <?php echo $themeColor; ?>;
-                    border-radius: 5px;
-                    text-decoration: none;
-                    font-weight: bold;
-                    transition: all 0.3s ease;
-                ">Dashboard</a>
-                <a href="?page=settings" style="
-                    display: inline-block;
-                    margin: 0.5rem 1rem;
-                    padding: 0.5rem 1rem;
-                    background-color: #fff;
-                    border: 2px solid <?php echo $themeColor; ?>;
-                    color: <?php echo $themeColor; ?>;
-                    border-radius: 5px;
-                    text-decoration: none;
-                    font-weight: bold;
-                    transition: all 0.3s ease;
-                ">Settings</a>
-            </nav>
-        </main>
-
-        <footer style="
-            margin-top: auto;
-            padding: 1rem;
-            font-size: 0.85rem;
-            color: #aaa;
-        ">
-            Powered by PHP • PWA Example
-        </footer>
-    </div>
     <?php endif; ?>
 
     <script src="/script.js"></script>
@@ -251,23 +164,6 @@ if ($route !== 'main' && !$modal) {
             navigator.serviceWorker.register('/service-worker.js')
                 .then(function(registration) {
                     console.log('Service Worker registered successfully:', registration.scope);
-                    
-                    // Check for updates
-                    registration.addEventListener('updatefound', function() {
-                        const newWorker = registration.installing;
-                        
-                        newWorker.addEventListener('statechange', function() {
-                            if (newWorker.state === 'installed') {
-                                if (navigator.serviceWorker.controller) {
-                                    // New content is available, show update notification
-                                    console.log('New content is available; please refresh.');
-                                } else {
-                                    // Content is cached for offline use
-                                    console.log('Content is cached for offline use.');
-                                }
-                            }
-                        });
-                    });
                 })
                 .catch(function(error) {
                     console.log('Service Worker registration failed:', error);
