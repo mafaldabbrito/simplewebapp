@@ -1,57 +1,12 @@
-<?php
-// Check if specific page is requested, otherwise show main page
-$route = $_GET['page'] ?? 'main';
-$modal = $_GET['modal'] ?? null;
-
-// Determine which manifest and settings to use
-if ($modal === 'dashboard') {
-    $manifest = 'manifest-dashboard.json';
-    $title = 'Dashboard Offline - MyApp';
-    $icon = '/icons/dashboard.svg';
-    $themeColor = '#6b7280';
-    $context = 'Dashboard';
-} elseif ($modal === 'settings') {
-    $manifest = 'manifest-settings.json';
-    $title = 'Settings Offline - MyApp';
-    $icon = '/icons/settings.png';
-    $themeColor = '#8b4513';
-    $context = 'Settings';
-} else {
-    $manifest = 'manifest.json';
-    $title = 'You\'re Offline - MyApp';
-    $icon = '/icons/dashboard.svg';
-    $themeColor = '#6b7280';
-    $context = 'MyApp';
-}
-
-// Legacy support for direct page access
-if ($route !== 'main' && !$modal) {
-    switch ($route) {
-        case 'settings':
-            $title = 'Settings Offline - MyApp';
-            $context = 'Settings';
-            $icon = '/icons/settings.png';
-            $themeColor = '#8b4513';
-            break;
-        case 'dashboard':
-        default:
-            $title = 'Dashboard Offline - MyApp';
-            $context = 'Dashboard';
-            $icon = '/icons/dashboard.svg';
-            $themeColor = '#6b7280';
-            break;
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $title; ?></title>
-    <link rel="manifest" href="/<?php echo $manifest; ?>">
-    <link rel="icon" href="<?php echo $icon; ?>">
-    <meta name="theme-color" content="<?php echo $themeColor; ?>">
+    <title>You're Offline - MyApp</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icons/dashboard.svg">
+    <meta name="theme-color" content="#6b7280">
     <style>
         * {
             margin: 0;
@@ -61,7 +16,7 @@ if ($route !== 'main' && !$modal) {
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, <?php echo $themeColor; ?>33 0%, <?php echo $themeColor; ?>66 100%);
+            background: linear-gradient(135deg, #6b728033 0%, #6b728066 100%);
             color: #333;
             min-height: 100vh;
             display: flex;
@@ -70,6 +25,14 @@ if ($route !== 'main' && !$modal) {
             justify-content: center;
             text-align: center;
             padding: 2rem;
+        }
+
+        body.dashboard {
+            background: linear-gradient(135deg, #6b728033 0%, #6b728066 100%);
+        }
+
+        body.settings {
+            background: linear-gradient(135deg, #8b451333 0%, #8b451366 100%);
         }
 
         .offline-container {
@@ -166,7 +129,7 @@ if ($route !== 'main' && !$modal) {
         }
 
         .retry-button {
-            background: linear-gradient(45deg, <?php echo $themeColor; ?>, <?php echo $themeColor; ?>dd);
+            background: linear-gradient(45deg, #6b7280, #6b7280dd);
             color: white;
             border: none;
             padding: 12px 30px;
@@ -191,8 +154,8 @@ if ($route !== 'main' && !$modal) {
 
         .back-button {
             background: transparent;
-            color: <?php echo $themeColor; ?>;
-            border: 2px solid <?php echo $themeColor; ?>;
+            color: #6b7280;
+            border: 2px solid #6b7280;
             padding: 12px 30px;
             border-radius: 25px;
             font-size: 1rem;
@@ -205,9 +168,24 @@ if ($route !== 'main' && !$modal) {
         }
 
         .back-button:hover {
-            background: <?php echo $themeColor; ?>;
+            background: #6b7280;
             color: white;
             transform: translateY(-2px);
+        }
+
+        /* Settings theme variations */
+        body.settings .retry-button {
+            background: linear-gradient(45deg, #8b4513, #8b4513dd);
+        }
+
+        body.settings .back-button {
+            color: #8b4513;
+            border-color: #8b4513;
+        }
+
+        body.settings .back-button:hover {
+            background: #8b4513;
+            color: white;
         }
 
         .connection-status {
@@ -252,10 +230,10 @@ if ($route !== 'main' && !$modal) {
             📡
         </div>
         
-        <h1 class="offline-title"><?php echo $context; ?> is Offline</h1>
+        <h1 class="offline-title" id="page-title">MyApp is Offline</h1>
         
-        <p class="offline-message">
-            It looks like you're not connected to the internet. The <?php echo $context; ?> section may not be available right now, but you can still access cached content.
+        <p class="offline-message" id="page-message">
+            It looks like you're not connected to the internet. The MyApp section may not be available right now, but you can still access cached content.
         </p>
         
         <div class="offline-suggestions">
@@ -275,11 +253,9 @@ if ($route !== 'main' && !$modal) {
             <button class="back-button" onclick="goBack()">
                 Go Back
             </button>
-            <?php if ($context !== 'MyApp'): ?>
-            <button class="back-button" onclick="goToMain()">
+            <button class="back-button" id="main-button" onclick="goToMain()" style="display: none;">
                 Back to Main
             </button>
-            <?php endif; ?>
         </div>
         
         <div id="connection-status" class="connection-status status-offline">
@@ -288,6 +264,103 @@ if ($route !== 'main' && !$modal) {
     </div>
 
     <script>
+        // Configuration for different page types
+        const pageConfigs = {
+            main: {
+                title: 'MyApp is Offline',
+                message: 'It looks like you\'re not connected to the internet. The MyApp section may not be available right now, but you can still access cached content.',
+                manifest: '/manifest.json',
+                icon: '/icons/dashboard.svg',
+                themeColor: '#6b7280',
+                showMainButton: false
+            },
+            dashboard: {
+                title: 'Dashboard is Offline',
+                message: 'It looks like you\'re not connected to the internet. The Dashboard section may not be available right now, but you can still access cached content.',
+                manifest: '/manifest-dashboard.json',
+                icon: '/icons/dashboard.svg',
+                themeColor: '#6b7280',
+                showMainButton: true
+            },
+            settings: {
+                title: 'Settings is Offline',
+                message: 'It looks like you\'re not connected to the internet. The Settings section may not be available right now, but you can still access cached content.',
+                manifest: '/manifest-settings.json',
+                icon: '/icons/settings.png',
+                themeColor: '#8b4513',
+                showMainButton: true
+            }
+        };
+
+        // Get URL parameters
+        function getURLParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const modal = urlParams.get('modal');
+            const page = urlParams.get('page');
+            
+            // Determine page type based on modal or page parameter
+            if (modal === 'dashboard') return 'dashboard';
+            if (modal === 'settings') return 'settings';
+            if (page === 'dashboard') return 'dashboard';
+            if (page === 'settings') return 'settings';
+            return 'main';
+        }
+
+        // Apply page configuration
+        function applyPageConfig() {
+            const pageType = getURLParams();
+            const config = pageConfigs[pageType];
+            
+            // Update page content
+            document.getElementById('page-title').textContent = config.title;
+            document.getElementById('page-message').textContent = config.message;
+            
+            // Update document title and meta
+            document.title = config.title.replace(' is Offline', ' Offline - MyApp');
+            document.querySelector('link[rel="manifest"]').href = config.manifest;
+            document.querySelector('link[rel="icon"]').href = config.icon;
+            document.querySelector('meta[name="theme-color"]').content = config.themeColor;
+            
+            // Show/hide main button
+            const mainButton = document.getElementById('main-button');
+            if (config.showMainButton) {
+                mainButton.style.display = 'inline-block';
+            }
+            
+            // Apply theme class to body
+            if (pageType !== 'main') {
+                document.body.classList.add(pageType);
+            }
+            
+            // Update button colors for different themes
+            updateButtonStyles(config.themeColor);
+        }
+
+        // Update button styles based on theme color
+        function updateButtonStyles(themeColor) {
+            const retryButtons = document.querySelectorAll('.retry-button');
+            const backButtons = document.querySelectorAll('.back-button');
+            
+            retryButtons.forEach(button => {
+                button.style.background = `linear-gradient(45deg, ${themeColor}, ${themeColor}dd)`;
+            });
+            
+            backButtons.forEach(button => {
+                button.style.color = themeColor;
+                button.style.borderColor = themeColor;
+                
+                button.addEventListener('mouseenter', () => {
+                    button.style.background = themeColor;
+                    button.style.color = 'white';
+                });
+                
+                button.addEventListener('mouseleave', () => {
+                    button.style.background = 'transparent';
+                    button.style.color = themeColor;
+                });
+            });
+        }
+
         // Check connection status
         function updateConnectionStatus() {
             const statusElement = document.getElementById('connection-status');
@@ -309,12 +382,13 @@ if ($route !== 'main' && !$modal) {
                 // Show feedback that we're still offline
                 const button = event.target;
                 const originalText = button.textContent;
+                const originalBg = button.style.background;
                 button.textContent = 'Still offline...';
                 button.style.background = '#ff6b6b';
                 
                 setTimeout(() => {
                     button.textContent = originalText;
-                    button.style.background = 'linear-gradient(45deg, <?php echo $themeColor; ?>, <?php echo $themeColor; ?>dd)';
+                    button.style.background = originalBg;
                 }, 2000);
             }
         }
@@ -338,9 +412,6 @@ if ($route !== 'main' && !$modal) {
         window.addEventListener('online', updateConnectionStatus);
         window.addEventListener('offline', updateConnectionStatus);
 
-        // Initial status check
-        updateConnectionStatus();
-
         // Auto-retry when connection is restored
         window.addEventListener('online', function() {
             setTimeout(function() {
@@ -348,6 +419,12 @@ if ($route !== 'main' && !$modal) {
                     window.location.reload();
                 }
             }, 1000);
+        });
+
+        // Initialize page on load
+        document.addEventListener('DOMContentLoaded', function() {
+            applyPageConfig();
+            updateConnectionStatus();
         });
     </script>
 </body>

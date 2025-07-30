@@ -1,5 +1,5 @@
 const CACHE_NAME = 'myapp-v1';
-const OFFLINE_URL = '/offline.php';
+const OFFLINE_URL = '/offline.html';
 
 // Files to cache for offline functionality
 const CACHE_URLS = [
@@ -7,11 +7,11 @@ const CACHE_URLS = [
   '/api/',
   '/styles.css',
   '/script.js',
-  '/offline.php',
-  '/offline.php?modal=dashboard',
-  '/offline.php?modal=settings',
-  '/offline.php?page=dashboard',
-  '/offline.php?page=settings',
+  '/offline.html',
+  '/offline.html?modal=dashboard',
+  '/offline.html?modal=settings',
+  '/offline.html?page=dashboard',
+  '/offline.html?page=settings',
   '/icons/dashboard.svg',
   '/icons/settings.png',
   '/manifest.json',
