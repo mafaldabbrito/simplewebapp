@@ -230,23 +230,9 @@
             </button>
         </div>
         
-        <div id="connection-status" class="connection-status status-offline">
-            ⚠️ Currently offline
-        </div>
     </div>
 
     <script>
-        // Check connection status
-        function updateConnectionStatus() {
-            const statusElement = document.getElementById('connection-status');
-            if (navigator.onLine) {
-                statusElement.textContent = '✅ Connection restored!';
-                statusElement.className = 'connection-status status-online';
-            } else {
-                statusElement.textContent = '⚠️ Currently offline';
-                statusElement.className = 'connection-status status-offline';
-            }
-        }
 
         // Retry connection
         function retryConnection() {
