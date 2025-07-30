@@ -102,9 +102,13 @@ self.addEventListener('fetch', function(event) {
       fetch(event.request)
         .then(function(response) {
           if (response.status === 200) {
-            console.log("Successful request")
+            console.log("Successful request");
+            return response;
+          } else {
+            // If request fails (non-200 status), redirect to offline page
+            console.log("Request failed with status:", response.status, "serving offline page");
+            return caches.match(OFFLINE_URL);
           }
-          return response;
         })
         .catch(function() {
           // If network fails, redirect to offline page
