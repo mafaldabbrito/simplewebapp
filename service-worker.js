@@ -18,42 +18,20 @@ const CACHE_URLS = [
   '/manifest-dashboard.json',
   '/manifest-settings.json'
 ];
-
-// Install event - cache essential files
+// Install event - cache static assets
 self.addEventListener('install', function(event) {
-  console.log('Service Worker installing...');
-  
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(function(cache) {
-        console.log('Caching essential files...');
         return cache.addAll(CACHE_URLS);
       })
       .then(function() {
-        // Force the service worker to become active immediately
+        // Skip waiting to activate the new service worker immediately
         return self.skipWaiting();
       })
-  );
-});
-
-// Activate event - clean up old caches
-self.addEventListener('activate', function(event) {
-  console.log('Service Worker activating...');
-  
-  event.waitUntil(
-    caches.keys().then(function(cacheNames) {
-      return Promise.all(
-        cacheNames.map(function(cacheName) {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    }).then(function() {
-      // Take control of all pages immediately
-      return self.clients.claim();
-    })
+      .catch(function(error) {
+        console.error('Failed to cache files during install:', error);
+      })
   );
 });
 
@@ -61,31 +39,6 @@ self.addEventListener('activate', function(event) {
 self.addEventListener('fetch', function(event) {
   // Skip non-GET requests
   if (event.request.method !== 'GET') {
-    return;
-  }
-
-  const requestUrl = new URL(event.request.url);
-  
-  // Handle navigation requests (page loads)
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request)
-        .catch(function() {
-          // If network fails, serve offline page with URL parameters preserved
-          const requestUrl = new URL(event.request.url);
-          const offlineUrl = new URL(OFFLINE_URL, self.location.origin);
-          
-          // Preserve important URL parameters for context
-          if (requestUrl.searchParams.has('modal')) {
-            offlineUrl.searchParams.set('modal', requestUrl.searchParams.get('modal'));
-          }
-          if (requestUrl.searchParams.has('page')) {
-            offlineUrl.searchParams.set('page', requestUrl.searchParams.get('page'));
-          }
-          
-          return caches.match(offlineUrl.toString()) || caches.match(OFFLINE_URL);
-        })
-    );
     return;
   }
 
