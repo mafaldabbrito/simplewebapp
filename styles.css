@@ -89,13 +89,7 @@ body {
     object-fit: contain;
 }
 
-.dashboard-button:hover {
-    background: linear-gradient(135deg, rgba(108, 117, 125, 0.1), rgba(255, 255, 255, 0.95));
-}
 
-.settings-button:hover {
-    background: linear-gradient(135deg, rgba(139, 69, 19, 0.1), rgba(255, 255, 255, 0.95));
-}
 
 /* Modal Styles */
 .modal {

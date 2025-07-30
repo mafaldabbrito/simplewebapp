@@ -27,14 +27,6 @@
             padding: 2rem;
         }
 
-        body.dashboard {
-            background: linear-gradient(135deg, #6b728033 0%, #6b728066 100%);
-        }
-
-        body.settings {
-            background: linear-gradient(135deg, #8b451333 0%, #8b451366 100%);
-        }
-
         .offline-container {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -173,21 +165,6 @@
             transform: translateY(-2px);
         }
 
-        /* Settings theme variations */
-        body.settings .retry-button {
-            background: linear-gradient(45deg, #8b4513, #8b4513dd);
-        }
-
-        body.settings .back-button {
-            color: #8b4513;
-            border-color: #8b4513;
-        }
-
-        body.settings .back-button:hover {
-            background: #8b4513;
-            color: white;
-        }
-
         .connection-status {
             margin-top: 2rem;
             padding: 1rem;
@@ -230,13 +207,11 @@
             📡
         </div>
         
-        <h1 class="offline-title" id="page-title">MyApp is Offline</h1>
+        <h1 class="offline-title">You're Offline</h1>
         
-        <p class="offline-message" id="page-message">
-            It looks like you're not connected to the internet. The MyApp section may not be available right now, but you can still access cached content.
-        </p>
-        
-        <div class="offline-suggestions">
+        <p class="offline-message">
+            It looks like you're not connected to the internet. Please check your connection and try again.
+        >        <div class="offline-suggestions">
             <h3>Try these steps:</h3>
             <ul>
                 <li>Check your internet connection</li>
@@ -253,9 +228,6 @@
             <button class="back-button" onclick="goBack()">
                 Go Back
             </button>
-            <button class="back-button" id="main-button" onclick="goToMain()" style="display: none;">
-                Back to Main
-            </button>
         </div>
         
         <div id="connection-status" class="connection-status status-offline">
@@ -264,103 +236,6 @@
     </div>
 
     <script>
-        // Configuration for different page types
-        const pageConfigs = {
-            main: {
-                title: 'MyApp is Offline',
-                message: 'It looks like you\'re not connected to the internet. The MyApp section may not be available right now, but you can still access cached content.',
-                manifest: '/manifest.json',
-                icon: '/icons/dashboard.svg',
-                themeColor: '#6b7280',
-                showMainButton: false
-            },
-            dashboard: {
-                title: 'Dashboard is Offline',
-                message: 'It looks like you\'re not connected to the internet. The Dashboard section may not be available right now, but you can still access cached content.',
-                manifest: '/manifest-dashboard.json',
-                icon: '/icons/dashboard.svg',
-                themeColor: '#6b7280',
-                showMainButton: true
-            },
-            settings: {
-                title: 'Settings is Offline',
-                message: 'It looks like you\'re not connected to the internet. The Settings section may not be available right now, but you can still access cached content.',
-                manifest: '/manifest-settings.json',
-                icon: '/icons/settings.png',
-                themeColor: '#8b4513',
-                showMainButton: true
-            }
-        };
-
-        // Get URL parameters
-        function getURLParams() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const modal = urlParams.get('modal');
-            const page = urlParams.get('page');
-            
-            // Determine page type based on modal or page parameter
-            if (modal === 'dashboard') return 'dashboard';
-            if (modal === 'settings') return 'settings';
-            if (page === 'dashboard') return 'dashboard';
-            if (page === 'settings') return 'settings';
-            return 'main';
-        }
-
-        // Apply page configuration
-        function applyPageConfig() {
-            const pageType = getURLParams();
-            const config = pageConfigs[pageType];
-            
-            // Update page content
-            document.getElementById('page-title').textContent = config.title;
-            document.getElementById('page-message').textContent = config.message;
-            
-            // Update document title and meta
-            document.title = config.title.replace(' is Offline', ' Offline - MyApp');
-            document.querySelector('link[rel="manifest"]').href = config.manifest;
-            document.querySelector('link[rel="icon"]').href = config.icon;
-            document.querySelector('meta[name="theme-color"]').content = config.themeColor;
-            
-            // Show/hide main button
-            const mainButton = document.getElementById('main-button');
-            if (config.showMainButton) {
-                mainButton.style.display = 'inline-block';
-            }
-            
-            // Apply theme class to body
-            if (pageType !== 'main') {
-                document.body.classList.add(pageType);
-            }
-            
-            // Update button colors for different themes
-            updateButtonStyles(config.themeColor);
-        }
-
-        // Update button styles based on theme color
-        function updateButtonStyles(themeColor) {
-            const retryButtons = document.querySelectorAll('.retry-button');
-            const backButtons = document.querySelectorAll('.back-button');
-            
-            retryButtons.forEach(button => {
-                button.style.background = `linear-gradient(45deg, ${themeColor}, ${themeColor}dd)`;
-            });
-            
-            backButtons.forEach(button => {
-                button.style.color = themeColor;
-                button.style.borderColor = themeColor;
-                
-                button.addEventListener('mouseenter', () => {
-                    button.style.background = themeColor;
-                    button.style.color = 'white';
-                });
-                
-                button.addEventListener('mouseleave', () => {
-                    button.style.background = 'transparent';
-                    button.style.color = themeColor;
-                });
-            });
-        }
-
         // Check connection status
         function updateConnectionStatus() {
             const statusElement = document.getElementById('connection-status');
@@ -382,13 +257,12 @@
                 // Show feedback that we're still offline
                 const button = event.target;
                 const originalText = button.textContent;
-                const originalBg = button.style.background;
                 button.textContent = 'Still offline...';
                 button.style.background = '#ff6b6b';
                 
                 setTimeout(() => {
                     button.textContent = originalText;
-                    button.style.background = originalBg;
+                    button.style.background = 'linear-gradient(45deg, #6b7280, #6b7280dd)';
                 }, 2000);
             }
         }
@@ -401,11 +275,6 @@
                 // If no history, try to go to the main page
                 window.location.href = '/';
             }
-        }
-
-        // Go to main page function
-        function goToMain() {
-            window.location.href = '/';
         }
 
         // Listen for connection changes
@@ -423,7 +292,6 @@
 
         // Initialize page on load
         document.addEventListener('DOMContentLoaded', function() {
-            applyPageConfig();
             updateConnectionStatus();
         });
     </script>
