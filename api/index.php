@@ -7,7 +7,7 @@ $modal = $_GET['modal'] ?? null;
 if ($modal === 'dashboard') {
     $manifest = 'manifest-dashboard.json';
     $title = 'Dashboard - MyApp';
-    $icon = '/icons/dashboard.png';
+    $icon = '/icons/dashboard.svg';
     $themeColor = '#6b7280';
 } elseif ($modal === 'settings') {
     $manifest = 'manifest-settings.json';
@@ -17,7 +17,7 @@ if ($modal === 'dashboard') {
 } else {
     $manifest = 'manifest.json';
     $title = 'MyApp';
-    $icon = '/icons/dashboard.png';
+    $icon = '/icons/dashboard.svg';
     $themeColor = '#6b7280';
 }
 
@@ -34,7 +34,7 @@ if ($route !== 'main' && !$modal) {
         default:
             $title = 'Dashboard';
             $content = 'Welcome to the Dashboard!';
-            $icon = '/icons/dashboard.png';
+            $icon = '/icons/dashboard.svg';
             $themeColor = '#6b7280';
             break;
     }
@@ -63,7 +63,7 @@ if ($route !== 'main' && !$modal) {
         <main class="main-content">
             <div class="button-container">
                 <button id="dashboard-btn" class="app-button dashboard-button">
-                    <img src="/icons/dashboard.png" alt="Dashboard" class="button-icon">
+                    <img src="/icons/dashboard.svg" alt="Dashboard" class="button-icon">
                     <span>Dashboard</span>
                 </button>
                 
