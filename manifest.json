@@ -1,6 +1,6 @@
 {
-  "name": "MyApp",
-  "short_name": "MyApp",
+  "name": "EOW PWA Demo",
+  "short_name": "EOW PWA Demo",
   "start_url": "/",
   "display": "standalone",
   "scope": "/",
@@ -8,44 +8,10 @@
   "theme_color": "#6b7280",
   "icons": [
     {
-      "src": "/icons/dashboard.svg",
+      "src": "/icons/logo-oew-icon.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/settings.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "Dashboard",
-      "short_name": "Dashboard",
-      "description": "Go directly to the Dashboard",
-      "url": "/?modal=dashboard",
-      "icons": [
-        {
-          "src": "/icons/dashboard.svg",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Settings",
-      "short_name": "Settings", 
-      "description": "Go directly to Settings",
-      "url": "/?modal=settings",
-      "icons": [
-        {
-          "src": "/icons/settings.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
     }
   ]
 }

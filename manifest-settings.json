@@ -1,5 +1,5 @@
 {
-  "name": "Settings - MyApp",
+  "name": "Settings - EOW PWA Demo",
   "short_name": "Settings",
   "start_url": "/?modal=settings",
   "display": "standalone",

@@ -1,5 +1,5 @@
 {
-  "name": "Dashboard - MyApp",
+  "name": "Dashboard - EOW PWA Demo",
   "short_name": "Dashboard",
   "start_url": "/?modal=dashboard",
   "display": "standalone",

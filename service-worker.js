@@ -1,4 +1,4 @@
-const CACHE_NAME = 'myapp-v1';
+const CACHE_NAME = 'EOW PWA Demo-v1';
 const OFFLINE_URL = '/offline.html';
 
 // Files to cache for offline functionality

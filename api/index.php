@@ -6,17 +6,17 @@ $modal = $_GET['modal'] ?? null;
 // Determine which manifest and settings to use
 if ($modal === 'dashboard') {
     $manifest = 'manifest-dashboard.json';
-    $title = 'Dashboard - MyApp';
+    $title = 'Dashboard - EOW PWA Demo';
     $icon = '/icons/dashboard.svg';
     $themeColor = '#6b7280';
 } elseif ($modal === 'settings') {
     $manifest = 'manifest-settings.json';
-    $title = 'Settings - MyApp';
+    $title = 'Settings - EOW PWA Demo';
     $icon = '/icons/settings.png';
     $themeColor = '#8b4513';
 } else {
     $manifest = 'manifest.json';
-    $title = 'MyApp';
+    $title = 'EOW PWA Demo';
     $icon = '/icons/dashboard.svg';
     $themeColor = '#6b7280';
 }
