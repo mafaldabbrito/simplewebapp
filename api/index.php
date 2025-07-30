@@ -101,15 +101,6 @@ if ($route !== 'main' && !$modal) {
                                     <button id="increment-btn" class="btn btn-success">+</button>
                                 </div>
                             </div>
-
-                            <div class="todo-section">
-                                <h3>Quick Todo</h3>
-                                <div class="todo-input-group">
-                                    <input type="text" id="todo-input" placeholder="Enter a task...">
-                                    <button id="add-todo-btn" class="btn btn-primary">Add</button>
-                                </div>
-                                <ul id="todo-list" class="todo-list"></ul>
-                            </div>
                         </div>
                     </div>
                 </section>

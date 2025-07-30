@@ -7,47 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const settingsModal = document.getElementById('settings-modal');
     const closeBtns = document.querySelectorAll('.close-btn');
 
-    // Open modals
-    dashboardBtn.addEventListener('click', () => {
-        dashboardModal.classList.add('active');
-        initializeDashboard();
-    });
-
-    settingsBtn.addEventListener('click', () => {
-        settingsModal.classList.add('active');
-        initializeSettings();
-    });
-
-    // Close modals
-    closeBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const modalId = e.target.getAttribute('data-modal');
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.remove('active');
-            }
-        });
-    });
-
-    // Close modal when clicking outside
-    window.addEventListener('click', (e) => {
-        if (e.target.classList.contains('modal')) {
-            e.target.classList.remove('active');
-        }
-    });
-
-    // Close modal with escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            const activeModals = document.querySelectorAll('.modal.active');
-            if (activeModals.length > 0) {
-                activeModals.forEach(modal => {
-                    modal.classList.remove('active');
-                });
-                updateURL(null);
-            }
-        }
-    });
 
     // Dashboard functionality
     function initializeDashboard() {
@@ -77,62 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
             counter.textContent = count;
             localStorage.setItem('counter', count.toString());
         });
-
-        // Todo functionality
-        const todoInput = document.getElementById('todo-input');
-        const addTodoBtn = document.getElementById('add-todo-btn');
-        const todoList = document.getElementById('todo-list');
-        
-        let todos = JSON.parse(localStorage.getItem('todos') || '[]');
-        
-        function renderTodos() {
-            todoList.innerHTML = '';
-            todos.forEach((todo, index) => {
-                const li = document.createElement('li');
-                li.className = 'todo-item';
-                li.innerHTML = `
-                    <span class="todo-text ${todo.completed ? 'completed' : ''}">${todo.text}</span>
-                    <div class="todo-actions">
-                        <button class="btn-toggle ${todo.completed ? 'btn-undo' : 'btn-complete'}" onclick="toggleTodo(${index})">
-                            ${todo.completed ? 'Undo' : 'Done'}
-                        </button>
-                        <button class="btn-delete" onclick="deleteTodo(${index})">Delete</button>
-                    </div>
-                `;
-                todoList.appendChild(li);
-            });
-        }
-
-        window.toggleTodo = function(index) {
-            todos[index].completed = !todos[index].completed;
-            localStorage.setItem('todos', JSON.stringify(todos));
-            renderTodos();
-        };
-
-        window.deleteTodo = function(index) {
-            todos.splice(index, 1);
-            localStorage.setItem('todos', JSON.stringify(todos));
-            renderTodos();
-        };
-
-        function addTodo() {
-            const text = todoInput.value.trim();
-            if (text) {
-                todos.push({ text, completed: false });
-                localStorage.setItem('todos', JSON.stringify(todos));
-                todoInput.value = '';
-                renderTodos();
-            }
-        }
-
-        addTodoBtn.addEventListener('click', addTodo);
-        todoInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                addTodo();
-            }
-        });
-
-        renderTodos();
+  
     }
 
     // Settings functionality
@@ -190,27 +94,32 @@ document.addEventListener('DOMContentLoaded', function() {
         window.history.pushState({}, '', url);
     }
 
+    // Modal configurations
+    const modalConfigs = {
+        dashboard: {
+            btn: dashboardBtn,
+            modal: dashboardModal,
+            title: 'Dashboard',
+            init: initializeDashboard
+        },
+        settings: {
+            btn: settingsBtn,
+            modal: settingsModal,
+            title: 'Settings',
+            init: initializeSettings
+        }
+    };
+
     // Check URL parameters and open modal if specified
     const urlParams = new URLSearchParams(window.location.search);
     const modalParam = urlParams.get('modal');
     
     // Set window title and theme based on the modal parameter
-    if (modalParam === 'dashboard') {
-        document.title = 'Dashboard - MyApp';
-        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#6b7280');
-        dashboardModal.classList.add('active');
-        initializeDashboard();
-        
-        // Hide main page when opened directly via shortcut
-        const mainPage = document.getElementById('main-page');
-        if (mainPage) {
-            mainPage.style.display = 'none';
-        }
-    } else if (modalParam === 'settings') {
-        document.title = 'Settings - MyApp';
-        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#8b4513');
-        settingsModal.classList.add('active');
-        initializeSettings();
+    if (modalConfigs[modalParam]) {
+        const config = modalConfigs[modalParam];
+        document.title = config.title;
+        config.modal.classList.add('active');
+        config.init();
         
         // Hide main page when opened directly via shortcut
         const mainPage = document.getElementById('main-page');
@@ -226,20 +135,13 @@ document.addEventListener('DOMContentLoaded', function() {
     dashboardBtn.removeEventListener('click', dashboardBtn.onclick);
     settingsBtn.removeEventListener('click', settingsBtn.onclick);
 
-    dashboardBtn.addEventListener('click', () => {
-        document.title = 'Dashboard - MyApp';
-        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#2196f3');
-        dashboardModal.classList.add('active');
-        initializeDashboard();
-        updateURL('dashboard');
-    });
-
-    settingsBtn.addEventListener('click', () => {
-        document.title = 'Settings - MyApp';
-        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#4caf50');
-        settingsModal.classList.add('active');
-        initializeSettings();
-        updateURL('settings');
+    Object.entries(modalConfigs).forEach(([modalName, config]) => {
+        config.btn.addEventListener('click', () => {
+            document.title = config.title;
+            config.modal.classList.add('active');
+            config.init();
+            updateURL(modalName);
+        });
     });
 
     // Update close functionality
@@ -252,7 +154,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (modal) {
                 modal.classList.remove('active');
                 document.title = 'MyApp';
-                document.querySelector('meta[name="theme-color"]').setAttribute('content', '#2196f3');
                 
                 // Show main page
                 const mainPage = document.getElementById('main-page');
@@ -266,53 +167,53 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Update window click listener
-    const originalWindowHandler = window.onclick;
-    window.removeEventListener('click', originalWindowHandler);
-    window.addEventListener('click', (e) => {
-        if (e.target.classList.contains('modal')) {
-            e.target.classList.remove('active');
-            document.title = 'MyApp';
-            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#2196f3');
+    // const originalWindowHandler = window.onclick;
+    // window.removeEventListener('click', originalWindowHandler);
+    // window.addEventListener('click', (e) => {
+    //     if (e.target.classList.contains('modal')) {
+    //         e.target.classList.remove('active');
+    //         document.title = 'MyApp';
+    //         document.querySelector('meta[name="theme-color"]').setAttribute('content', '#2196f3');
             
-            // Show main page
-            const mainPage = document.getElementById('main-page');
-            if (mainPage) {
-                mainPage.style.display = 'flex';
-            }
+    //         // Show main page
+    //         const mainPage = document.getElementById('main-page');
+    //         if (mainPage) {
+    //             mainPage.style.display = 'flex';
+    //         }
             
-            updateURL(null);
-        }
-    });
+    //         updateURL(null);
+    //     }
+    // });
 
-    // Handle browser back/forward buttons
-    window.addEventListener('popstate', () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const modalParam = urlParams.get('modal');
+    // // Handle browser back/forward buttons
+    // window.addEventListener('popstate', () => {
+    //     const urlParams = new URLSearchParams(window.location.search);
+    //     const modalParam = urlParams.get('modal');
         
-        // Close all modals first
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.classList.remove('active');
-        });
+    //     // Close all modals first
+    //     document.querySelectorAll('.modal').forEach(modal => {
+    //         modal.classList.remove('active');
+    //     });
         
-        // Show main page
-        const mainPage = document.getElementById('main-page');
-        if (mainPage) {
-            mainPage.style.display = 'flex';
-        }
+    //     // Show main page
+    //     const mainPage = document.getElementById('main-page');
+    //     if (mainPage) {
+    //         mainPage.style.display = 'flex';
+    //     }
         
-        // Open the appropriate modal based on URL and set window properties
-        if (modalParam === 'dashboard') {
-            document.title = 'Dashboard - MyApp';
-            dashboardModal.classList.add('active');
-            initializeDashboard();
-            if (mainPage) mainPage.style.display = 'none';
-        } else if (modalParam === 'settings') {
-            document.title = 'Settings - MyApp';
-            settingsModal.classList.add('active');
-            initializeSettings();
-            if (mainPage) mainPage.style.display = 'none';
-        } else {
-            document.title = 'MyApp';
-        }
-    });
+    //     // Open the appropriate modal based on URL and set window properties
+    //     if (modalParam === 'dashboard') {
+    //         document.title = 'Dashboard - MyApp';
+    //         dashboardModal.classList.add('active');
+    //         initializeDashboard();
+    //         if (mainPage) mainPage.style.display = 'none';
+    //     } else if (modalParam === 'settings') {
+    //         document.title = 'Settings - MyApp';
+    //         settingsModal.classList.add('active');
+    //         initializeSettings();
+    //         if (mainPage) mainPage.style.display = 'none';
+    //     } else {
+    //         document.title = 'MyApp';
+    //     }
+    // });
 });
