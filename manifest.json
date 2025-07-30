@@ -9,7 +9,7 @@
   "icons": [
     {
       "src": "/icons/logo-eow-icon.png",
-      "sizes": "192x130",
+      "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     }
