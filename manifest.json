@@ -13,5 +13,12 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "screenshots": [
+  {
+    "src": "icons/screenshot.png",
+    "sizes": "1280x720",
+    "type": "image/png"
+  }
+]
 }
