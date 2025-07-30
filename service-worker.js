@@ -1,6 +1,6 @@
 const CACHE_NAME = 'EOW PWA Demo-v1';
 const OFFLINE_URL = '/offline.html';
-const CACHE_MAX_AGE = 1 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+const CACHE_MAX_AGE = 1 * 24 * 60 * 60 * 1000; // 1 day in milliseconds
 const MAX_CACHE_SIZE = 50; // Maximum number of cached items per cache
 
 // Files to cache for offline functionality
@@ -10,12 +10,6 @@ const CACHE_URLS = [
   '/styles.css',
   '/script.js',
   '/offline.html',
-  '/offline.html?modal=dashboard',
-  '/offline.html?modal=settings',
-  '/offline.html?page=dashboard',
-  '/offline.html?page=settings',
-  '/icons/dashboard.svg',
-  '/icons/settings.png',
   '/manifest.json',
   '/manifest-dashboard.json',
   '/manifest-settings.json'
