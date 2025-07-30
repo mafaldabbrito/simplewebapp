@@ -216,4 +216,69 @@ document.addEventListener('DOMContentLoaded', function() {
     //         document.title = 'MyApp';
     //     }
     // });
+
+    // Connection status monitoring
+    function updateConnectionStatus() {
+        if (!navigator.onLine) {
+            showOfflineNotification();
+        } else {
+            hideOfflineNotification();
+        }
+    }
+
+    function showOfflineNotification() {
+        // Remove existing notification
+        const existing = document.getElementById('offline-notification');
+        if (existing) existing.remove();
+
+        const offlineNotification = document.createElement('div');
+        offlineNotification.id = 'offline-notification';
+        offlineNotification.innerHTML = `
+            <div style="
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                right: 20px;
+                background: #ff9800;
+                color: white;
+                padding: 12px 16px;
+                border-radius: 8px;
+                z-index: 10000;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                max-width: 400px;
+                margin: 0 auto;
+            ">
+                <span>📡 You're offline - Some features may be limited</span>
+                <button onclick="this.parentElement.parentElement.remove()" style="
+                    background: none;
+                    border: none;
+                    color: white;
+                    font-size: 18px;
+                    cursor: pointer;
+                    padding: 0;
+                    margin-left: 10px;
+                ">&times;</button>
+            </div>
+        `;
+        
+        document.body.appendChild(offlineNotification);
+    }
+
+    function hideOfflineNotification() {
+        const notification = document.getElementById('offline-notification');
+        if (notification) {
+            notification.remove();
+        }
+    }
+
+    // Listen for connection changes
+    window.addEventListener('online', updateConnectionStatus);
+    window.addEventListener('offline', updateConnectionStatus);
+
+    // Initial connection status check
+    updateConnectionStatus();
 });

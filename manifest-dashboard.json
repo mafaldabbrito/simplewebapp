@@ -10,7 +10,7 @@
     {
       "src": "/icons/dashboard.svg",
       "sizes": "192x192",
-      "type": "image/png",
+      "type": "image/svg",
       "purpose": "any maskable"
     }
   ]

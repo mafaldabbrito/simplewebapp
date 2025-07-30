@@ -242,13 +242,37 @@ if ($route !== 'main' && !$modal) {
         </footer>
     </div>
     <?php endif; ?>
-</body>
-</html>
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js');
-    }
-  </script>
+    <script src="/script.js"></script>
+    
+    <script>
+        // Service Worker registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(function(registration) {
+                    console.log('Service Worker registered successfully:', registration.scope);
+                    
+                    // Check for updates
+                    registration.addEventListener('updatefound', function() {
+                        const newWorker = registration.installing;
+                        
+                        newWorker.addEventListener('statechange', function() {
+                            if (newWorker.state === 'installed') {
+                                if (navigator.serviceWorker.controller) {
+                                    // New content is available, show update notification
+                                    console.log('New content is available; please refresh.');
+                                } else {
+                                    // Content is cached for offline use
+                                    console.log('Content is cached for offline use.');
+                                }
+                            }
+                        });
+                    });
+                })
+                .catch(function(error) {
+                    console.log('Service Worker registration failed:', error);
+                });
+        }
+    </script>
 </body>
 </html>
