@@ -35,8 +35,6 @@ self.addEventListener('activate', function(event) {
       }),
       // Clean expired entries from current cache
       cleanExpiredCacheEntries(),
-      // Limit cache size
-      limitCacheSize(CACHE_NAME, MAX_CACHE_SIZE),
       // Take control of all clients immediately
       self.clients.claim()
     ])
@@ -174,23 +172,7 @@ function cleanExpiredCacheEntries() {
   });
 }
 
-// Helper function to limit cache size
-function limitCacheSize(cacheName, maxSize) {
-  return caches.open(cacheName).then(function(cache) {
-    return cache.keys().then(function(keys) {
-      if (keys.length > maxSize) {
-        // Remove oldest entries (FIFO approach)
-        const keysToDelete = keys.slice(0, keys.length - maxSize);
-        return Promise.all(
-          keysToDelete.map(function(key) {
-            console.log('Removing cache entry due to size limit:', key.url);
-            return cache.delete(key);
-          })
-        );
-      }
-    });
-  });
-}
+
 
 // Helper function to add timestamp to cached responses
 function addTimestampToResponse(response) {
