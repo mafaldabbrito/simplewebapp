@@ -130,35 +130,87 @@ body {
 .modal-header {
     background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
     color: white;
-    padding: 1.5rem 2rem;
+    padding: 0.75rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .modal-header h2 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 500;
 }
 
+/* Windows-style window controls */
+.window-controls {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+.window-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0;
+    width: 46px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 400;
+}
+
+.window-btn:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.window-btn:active:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.window-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.minimize-btn:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.maximize-btn:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.close-btn:hover:not(:disabled) {
+    background-color: #e81123;
+    color: white;
+}
+
+.close-btn:active:not(:disabled) {
+    background-color: #f1707a;
+}
+
+/* Remove old close button styles */
 .close-btn {
     background: none;
     border: none;
     color: white;
-    font-size: 2rem;
+    font-size: 1rem;
     cursor: pointer;
     padding: 0;
-    width: 40px;
-    height: 40px;
+    width: 46px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    transition: background-color 0.3s ease;
-}
-
-.close-btn:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    transition: background-color 0.2s ease;
 }
 
 .modal-body {
@@ -170,6 +222,11 @@ body {
 /* Settings Modal Specific Styles */
 #settings-modal .modal-header {
     background: linear-gradient(135deg, #8b4513 0%, #6f3609 100%);
+}
+
+#settings-modal .close-btn:hover:not(:disabled) {
+    background-color: #e81123;
+    color: white;
 }
 
 #settings-modal .card {
@@ -468,6 +525,11 @@ body {
 /* Settings Dark Theme */
 .dark-theme #settings-modal .modal-header {
     background: linear-gradient(135deg, #5d2a0a 0%, #4a2108 100%);
+}
+
+.dark-theme #settings-modal .close-btn:hover:not(:disabled) {
+    background-color: #e81123;
+    color: white;
 }
 
 .dark-theme #settings-modal .card {

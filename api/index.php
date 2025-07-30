@@ -80,7 +80,11 @@ if ($route !== 'main' && !$modal) {
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Dashboard</h2>
-                <button class="close-btn" data-modal="dashboard-modal">&times;</button>
+                <div class="window-controls">
+                    <button class="window-btn minimize-btn" disabled>&#8722;</button>
+                    <button class="window-btn maximize-btn" disabled>&#9744;</button>
+                    <button class="window-btn close-btn" data-modal="dashboard-modal">&times;</button>
+                </div>
             </div>
             <div class="modal-body">
                 <!-- Dashboard Section -->
@@ -113,7 +117,11 @@ if ($route !== 'main' && !$modal) {
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Settings</h2>
-                <button class="close-btn" data-modal="settings-modal">&times;</button>
+                <div class="window-controls">
+                    <button class="window-btn minimize-btn" disabled>&#8722;</button>
+                    <button class="window-btn maximize-btn" disabled>&#9744;</button>
+                    <button class="window-btn close-btn" data-modal="settings-modal">&times;</button>
+                </div>
             </div>
             <div class="modal-body">
                 <!-- Settings Section -->
