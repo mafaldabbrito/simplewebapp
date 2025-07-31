@@ -83,7 +83,7 @@ if ($route !== 'main' && !$modal) {
                 <div class="window-controls">
                     <button class="window-btn minimize-btn" disabled>&#8722;</button>
                     <button class="window-btn maximize-btn" disabled>&#9744;</button>
-                    <button class="window-btn close-btn" data-modal="dashboard-modal">&times;</button>
+                    <button class="window-btn close-btn" data-modal="dashboard-modal" onclick="window.close()">&times;</button>
                 </div>
             </div>
             <div class="modal-body">
@@ -120,7 +120,7 @@ if ($route !== 'main' && !$modal) {
                 <div class="window-controls">
                     <button class="window-btn minimize-btn" disabled>&#8722;</button>
                     <button class="window-btn maximize-btn" disabled>&#9744;</button>
-                    <button class="window-btn close-btn" data-modal="settings-modal">&times;</button>
+                    <button class="window-btn close-btn" data-modal="settings-modal" onclick="window.close()">&times;</button>
                 </div>
             </div>
             <div class="modal-body">
