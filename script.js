@@ -7,6 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const settingsModal = document.getElementById('settings-modal');
     const closeBtns = document.querySelectorAll('.close-btn');
 
+    // Debug: Check if elements are found
+    console.log('Dashboard button:', dashboardBtn);
+    console.log('Settings button:', settingsBtn);
+    console.log('Dashboard modal:', dashboardModal);
+    console.log('Settings modal:', settingsModal);
+
 
     // Dashboard functionality
     function initializeDashboard() {
@@ -85,12 +91,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // URL parameter functionality for direct modal access
     function updateURL(modalName) {
+        console.log('updateURL called with:', modalName);
         const url = new URL(window.location);
         if (modalName) {
             url.searchParams.set('modal', modalName);
         } else {
             url.searchParams.delete('modal');
         }
+        console.log('New URL will be:', url.toString());
         window.history.pushState({}, '', url);
     }
 
@@ -133,12 +141,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Add modal event listeners to include URL updates
     Object.entries(modalConfigs).forEach(([modalName, config]) => {
-        config.btn.addEventListener('click', () => {
-            document.title = config.title;
-            config.modal.classList.add('active');
-            config.init();
-            updateURL(modalName);
-        });
+        console.log(`Adding event listener for ${modalName}`, config.btn);
+        if (config.btn) {
+            config.btn.addEventListener('click', () => {
+                console.log(`${modalName} button clicked`);
+                document.title = config.title;
+                config.modal.classList.add('active');
+                config.init();
+                updateURL(modalName);
+            });
+        } else {
+            console.error(`Button for ${modalName} not found!`);
+        }
     });
 
     // Add close button functionality
