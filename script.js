@@ -7,12 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const settingsModal = document.getElementById('settings-modal');
     const closeBtns = document.querySelectorAll('.close-btn');
 
-    // Debug: Check if elements are found
-    console.log('Dashboard button:', dashboardBtn);
-    console.log('Settings button:', settingsBtn);
-    console.log('Dashboard modal:', dashboardModal);
-    console.log('Settings modal:', settingsModal);
-
 
     // Dashboard functionality
     function initializeDashboard() {
@@ -21,6 +15,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const incrementBtn = document.getElementById('increment-btn');
         const decrementBtn = document.getElementById('decrement-btn');
         const resetBtn = document.getElementById('reset-btn');
+        
+        // Check if elements exist before trying to access them
+        if (!counter || !incrementBtn || !decrementBtn || !resetBtn) {
+            console.warn('Dashboard elements not found, retrying in 100ms...');
+            setTimeout(initializeDashboard, 100);
+            return;
+        }
         
         let count = parseInt(localStorage.getItem('counter') || '0');
         counter.textContent = count;
@@ -51,6 +52,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const themeSelect = document.getElementById('theme-select');
         const notificationsEnabled = document.getElementById('notifications-enabled');
         const languageSelect = document.getElementById('language-select');
+
+        // Check if elements exist before trying to access them
+        if (!themeSelect || !notificationsEnabled || !languageSelect) {
+            console.warn('Settings elements not found, retrying in 100ms...');
+            setTimeout(initializeSettings, 100);
+            return;
+        }
 
         // Load saved settings
         themeSelect.value = localStorage.getItem('theme') || 'light';
@@ -91,14 +99,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // URL parameter functionality for direct modal access
     function updateURL(modalName) {
-        console.log('updateURL called with:', modalName);
         const url = new URL(window.location);
         if (modalName) {
             url.searchParams.set('modal', modalName);
         } else {
             url.searchParams.delete('modal');
         }
-        console.log('New URL will be:', url.toString());
         window.history.pushState({}, '', url);
     }
 
@@ -141,10 +147,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Add modal event listeners to include URL updates
     Object.entries(modalConfigs).forEach(([modalName, config]) => {
-        console.log(`Adding event listener for ${modalName}`, config.btn);
         if (config.btn) {
             config.btn.addEventListener('click', () => {
-                console.log(`${modalName} button clicked`);
                 document.title = config.title;
                 config.modal.classList.add('active');
                 config.init();

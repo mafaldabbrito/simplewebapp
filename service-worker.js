@@ -63,6 +63,12 @@ self.addEventListener('fetch', function(event) {
     return;
   }
 
+  // Skip requests with unsupported schemes
+  const url = new URL(event.request.url);
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+    return;
+  }
+
   // Handle other requests with cache-first strategy for static assets
   if (isStaticAsset(event.request.url)) {
     event.respondWith(
@@ -81,6 +87,9 @@ self.addEventListener('fetch', function(event) {
                 caches.open(CACHE_NAME)
                   .then(function(cache) {
                     cache.put(event.request, responseWithTimestamp);
+                  })
+                  .catch(function(error) {
+                    console.warn('Failed to cache response:', error);
                   });
               }
               return response;
@@ -111,10 +120,22 @@ self.addEventListener('fetch', function(event) {
 
 // Helper function to check if request is for static assets
 function isStaticAsset(url) {
-  const staticExtensions = ['.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2'];
-  return staticExtensions.some(ext => url.includes(ext)) || 
-         url.includes('/icons/') || 
-         url.includes('manifest');
+  try {
+    const urlObj = new URL(url);
+    
+    // Only handle http/https URLs
+    if (urlObj.protocol !== 'http:' && urlObj.protocol !== 'https:') {
+      return false;
+    }
+    
+    const staticExtensions = ['.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2'];
+    return staticExtensions.some(ext => url.includes(ext)) || 
+           url.includes('/icons/') || 
+           url.includes('manifest');
+  } catch (error) {
+    console.warn('Invalid URL in isStaticAsset:', url);
+    return false;
+  }
 }
 
 // Helper function to clean expired cache entries
