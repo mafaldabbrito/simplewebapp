@@ -62,12 +62,12 @@ if ($route !== 'main' && !$modal) {
         
         <main class="main-content">
             <div class="button-container">
-                <button id="dashboard-btn" class="app-button dashboard-button" onclick="window.open('/?modal=dashboard', '_blank')">
+                <button id="dashboard-btn" class="app-button dashboard-button">
                     <img src="/icons/dashboard.svg" alt="Dashboard" class="button-icon">
                     <span>Dashboard</span>
                 </button>
                 
-                <button id="settings-btn" class="app-button settings-button" onclick="window.open('/?modal=settings', '_blank')">
+                <button id="settings-btn" class="app-button settings-button">
                     <img src="/icons/settings.png" alt="Settings" class="button-icon">
                     <span>Settings</span>
                 </button>
