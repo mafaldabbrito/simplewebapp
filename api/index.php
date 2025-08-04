@@ -72,6 +72,12 @@ if ($route !== 'main' && !$modal) {
                     <span>Settings</span>
                 </button>
             </div>
+            
+            <!-- Window Management Permission -->
+            <div id="window-placement" class="permission-section" style="display: none;">
+                <p>This app needs window management permissions for advanced window controls.</p>
+                <button id="window-placement-btn" class="btn btn-primary">Grant Window Management Permission</button>
+            </div>
         </main>
     </div>
 
@@ -81,9 +87,10 @@ if ($route !== 'main' && !$modal) {
             <div class="modal-header">
                 <h2>Dashboard</h2>
                 <div class="window-controls">
-                    <button class="window-btn minimize-btn" disabled>&#8722;</button>
-                    <button class="window-btn maximize-btn" disabled>&#9744;</button>
-                    <button class="window-btn close-btn" data-modal="dashboard-modal" onclick="window.close()">&times;</button>
+                    <button class="window-btn minimize-btn" id="min-button">&#8722;</button>
+                    <button class="window-btn maximize-btn" id="max-button">&#9744;</button>
+                    <button class="window-btn restore-btn" id="restore-button">&#9634;</button>
+                    <button class="window-btn close-btn" id="close-button" data-modal="dashboard-modal">&times;</button>
                 </div>
             </div>
             <div class="modal-body">
@@ -118,9 +125,10 @@ if ($route !== 'main' && !$modal) {
             <div class="modal-header">
                 <h2>Settings</h2>
                 <div class="window-controls">
-                    <button class="window-btn minimize-btn" disabled>&#8722;</button>
-                    <button class="window-btn maximize-btn" disabled>&#9744;</button>
-                    <button class="window-btn close-btn" data-modal="settings-modal" onclick="window.close()">&times;</button>
+                    <button class="window-btn minimize-btn" id="settings-min-button">&#8722;</button>
+                    <button class="window-btn maximize-btn" id="settings-max-button">&#9744;</button>
+                    <button class="window-btn restore-btn" id="settings-restore-button">&#9634;</button>
+                    <button class="window-btn close-btn" id="settings-close-button" data-modal="settings-modal">&times;</button>
                 </div>
             </div>
             <div class="modal-body">

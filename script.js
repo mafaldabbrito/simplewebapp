@@ -235,4 +235,100 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize offline detection
     initializeOfflineDetection();
 
+    /* WINDOW-MANAGEMENT PERMISSION THINGS */
+    function setWindowPlacementPermissionButton() {
+        const btn = document.getElementById("window-placement-btn");
+        if (btn) {
+            btn.addEventListener("click", async (event) => {
+                try {
+                    await window.getScreenDetails();
+                    // Hide the permission section after granting
+                    document.getElementById("window-placement").style.display = "none";
+                } catch (error) {
+                    console.error("Failed to get screen details:", error);
+                }
+            });
+        }
+    }
+
+    // Check window management permission
+    if (navigator.permissions) {
+        navigator.permissions.query({ name: "window-management" }).then((status) => {
+            const isGranted = status.state == "granted";
+            if (!isGranted) setWindowPlacementPermissionButton();
+            const placementEl = document.getElementById("window-placement");
+            if (placementEl) {
+                placementEl.style.display = isGranted ? "none" : "block";
+            }
+        }).catch(error => {
+            console.log("Window management permission not supported:", error);
+        });
+    }
+
+    /* WINDOW CONTROLS THINGS */
+    function setupWindowControls(prefix = '') {
+        const minBtn = document.getElementById(prefix + "min-button");
+        const maxBtn = document.getElementById(prefix + "max-button");
+        const restoreBtn = document.getElementById(prefix + "restore-button");
+        const closeBtn = document.getElementById(prefix + "close-button");
+
+        if (minBtn) {
+            minBtn.addEventListener("click", async (event) => {
+                try {
+                    await window.minimize();
+                } catch (error) {
+                    console.error("Failed to minimize window:", error);
+                }
+            });
+        }
+
+        if (maxBtn) {
+            maxBtn.addEventListener("click", async (event) => {
+                try {
+                    await window.maximize();
+                } catch (error) {
+                    console.error("Failed to maximize window:", error);
+                }
+            });
+        }
+
+        if (restoreBtn) {
+            restoreBtn.addEventListener("click", async (event) => {
+                try {
+                    await window.restore();
+                } catch (error) {
+                    console.error("Failed to restore window:", error);
+                }
+            });
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener("click", (event) => {
+                try {
+                    window.close();
+                } catch (error) {
+                    console.error("Failed to close window:", error);
+                    // Fallback to modal close behavior
+                    const modalId = closeBtn.getAttribute('data-modal');
+                    if (modalId) {
+                        const modal = document.getElementById(modalId);
+                        if (modal) {
+                            modal.classList.remove('active');
+                            document.title = 'EOW PWA Demo';
+                            const mainPage = document.getElementById('main-page');
+                            if (mainPage) {
+                                mainPage.style.display = 'flex';
+                            }
+                            updateURL(null);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    // Setup window controls for both dashboard and settings
+    setupWindowControls(''); // Dashboard controls
+    setupWindowControls('settings-'); // Settings controls
+
 });
