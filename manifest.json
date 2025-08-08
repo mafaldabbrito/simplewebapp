@@ -3,7 +3,7 @@
   "short_name": "EOW PWA Demo",
   "start_url": "/",
   "display": "standalone",
-   "display_override": ["borderless"],
+  "display_override": ["borderless"],
   "permissions_policy": {
     "window-management": ["self"],
     "fullscreen": ["self"],
