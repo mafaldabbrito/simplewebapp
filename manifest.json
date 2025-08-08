@@ -2,8 +2,8 @@
   "name": "EOW PWA Demo",
   "short_name": "EOW PWA Demo",
   "start_url": "/",
-  "display": "fullscreen",
-  "display_override": ["borderless"],
+  "display": "standalone",
+  "display_override": ["minimal-ui"],
   "permissions_policy": {
     "window-management": ["self"],
     "fullscreen": ["self"],
