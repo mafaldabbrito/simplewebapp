@@ -42,7 +42,7 @@ if ($route !== 'main' && !$modal) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $title; ?></title>
-    <link rel="manifest" href="/<?php echo $manifest; ?>">
+    <link rel="manifest" href="<?php echo $manifest; ?>">
     <link rel="icon" href="<?php echo $icon; ?>">
     <meta name="theme-color" content="<?php echo $themeColor; ?>">
     <link rel="stylesheet" href="/styles.css">
