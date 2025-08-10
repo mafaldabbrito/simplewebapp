@@ -9,7 +9,7 @@
   "icons": [
     {
       "src": "/icons/dashboard.svg",
-      "sizes": "192x192",
+      "sizes": "800x800",
       "type": "image/svg",
       "purpose": "any maskable"
     }
