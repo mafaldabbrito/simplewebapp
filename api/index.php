@@ -71,6 +71,13 @@ if ($route !== 'main' && !$modal) {
                     <img src="/icons/settings.png" alt="Settings" class="button-icon">
                     <span>Settings</span>
                 </button>
+                <a href="/manifests/manifest-dashboard.json" target="_blank" rel="noopener noreferrer">
+                    Install Dashboard App
+                </a>
+                <a href="/manifests/manifest-settings.json" target="_blank" rel="noopener noreferrer">
+                    Install Settings App
+                </a>
+
             </div>
             
             <!-- Window Management Permission -->
