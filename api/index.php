@@ -29,6 +29,7 @@ switch ($view) {
     <title><?= htmlspecialchars($title) ?></title>
     <link rel="manifest" href="<?= htmlspecialchars($manifest) ?>" />
     <link rel="icon" href="<?= htmlspecialchars($icon) ?>" />
+    <link rel="stylesheet" href="/styles.css">
     <meta name="theme-color" content="<?= htmlspecialchars($themeColor) ?>" />
 </head>
 <body>
