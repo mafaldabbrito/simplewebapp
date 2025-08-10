@@ -1,51 +1,35 @@
 <?php
-// Check if specific page is requested, otherwise show main page
-$route = $_GET['page'] ?? 'main';
-$modal = $_GET['modal'] ?? null;
+$view = $_GET['view'] ?? 'main';
 
-// Determine which manifest and settings to use
-if ($modal === 'dashboard') {
-    $manifest = '/manifests/manifest-dashboard.json';
-    $title = 'Dashboard - EOW PWA Demo';
-    $icon = '/icons/dashboard.svg';
-    $themeColor = '#6b7280';
-} elseif ($modal === 'settings') {
-    $manifest = '/manifests/manifest-settings.json';
-    $title = 'Settings - EOW PWA Demo';
-    $icon = '/icons/settings.png';
-    $themeColor = '#8b4513';
-}
-
-
-// Legacy support for direct page access
-if ($route !== 'main' && !$modal) {
-    switch ($route) {
-        case 'settings':
-            $title = 'Settings';
-            $content = 'Welcome to the Settings Page!';
-            $icon = '/icons/settings.png';
-            $themeColor = '#8b4513';
-            break;
-        case 'dashboard':
-        default:
-            $title = 'Dashboard';
-            $content = 'Welcome to the Dashboard!';
-            $icon = '/icons/dashboard.svg';
-            $themeColor = '#6b7280';
-            break;
-    }
+switch ($view) {
+    case 'dashboard':
+        $manifest = '/manifests/manifest-dashboard.json';
+        $title = 'Dashboard - EOW PWA Demo';
+        $icon = '/icons/dashboard.svg';
+        $themeColor = '#6b7280';
+        break;
+    case 'settings':
+        $manifest = '/manifests/manifest-settings.json';
+        $title = 'Settings - EOW PWA Demo';
+        $icon = '/icons/settings.png';
+        $themeColor = '#8b4513';
+        break;
+    default:
+        $manifest = '/manifests/manifest-main.json';
+        $title = 'EOW PWA Demo';
+        $icon = '/icons/default-icon.png';
+        $themeColor = '#000000';
+        break;
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $title; ?></title>
-    <link rel="manifest" href="<?php echo $manifest; ?>">
-    <link rel="icon" href="<?php echo $icon; ?>">
-    <meta name="theme-color" content="<?php echo $themeColor; ?>">
-    <link rel="stylesheet" href="/styles.css">
+    <meta charset="UTF-8" />
+    <title><?= htmlspecialchars($title) ?></title>
+    <link rel="manifest" href="<?= htmlspecialchars($manifest) ?>" />
+    <link rel="icon" href="<?= htmlspecialchars($icon) ?>" />
+    <meta name="theme-color" content="<?= htmlspecialchars($themeColor) ?>" />
 </head>
 <body>
     <?php if ($route === 'main' || !isset($_GET['page'])): ?>
