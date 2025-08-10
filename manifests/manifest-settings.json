@@ -1,4 +1,5 @@
 {
+  "id": "/?modal=settings",
   "name": "Settings - EOW PWA Demo",
   "short_name": "Settings",
   "start_url": "/?modal=settings",
