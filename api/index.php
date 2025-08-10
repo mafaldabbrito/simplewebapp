@@ -1,4 +1,22 @@
 <?php
+$requestUri = $_SERVER['REQUEST_URI']; // e.g. "/dashboard/" or "/settings/"
+$scriptName = $_SERVER['SCRIPT_NAME']; // e.g. "/index.php"
+
+// Remove query string
+$path = parse_url($requestUri, PHP_URL_PATH);
+
+// Optionally remove script directory prefix if any
+$basePath = dirname($scriptName);
+if (strpos($path, $basePath) === 0) {
+    $path = substr($path, strlen($basePath));
+}
+
+// Clean slashes
+$path = trim($path, '/');
+
+// Use the first segment as your view
+$segments = explode('/', $path);
+$view = $segments[0] ?: 'main';
 $view = $_GET['view'] ?? 'main';
 
 switch ($view) {
