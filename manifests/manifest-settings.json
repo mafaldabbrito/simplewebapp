@@ -10,8 +10,7 @@
     {
       "src": "/icons/settings.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
+      "type": "image/png"
     }
   ]
 }
