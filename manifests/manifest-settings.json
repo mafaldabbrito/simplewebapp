@@ -3,7 +3,7 @@
   "short_name": "Settings",
   "start_url": "/?modal=settings",
   "display": "standalone",
-  "scope": "/",
+  "scope": "/?modal=settings",
   "background_color": "#ffffff",
   "theme_color": "#8b4513",
   "icons": [

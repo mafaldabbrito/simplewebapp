@@ -3,7 +3,7 @@
   "short_name": "Dashboard",
   "start_url": "/?modal=dashboard",
   "display": "standalone",
-  "scope": "/",
+  "scope": "/?modal=dashboard",
   "background_color": "#ffffff",
   "theme_color": "#6b7280",
   "icons": [
