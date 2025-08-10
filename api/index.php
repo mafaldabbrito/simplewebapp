@@ -5,20 +5,15 @@ $modal = $_GET['modal'] ?? null;
 
 // Determine which manifest and settings to use
 if ($modal === 'dashboard') {
-    $manifest = 'manifests/manifest-dashboard.json';
+    $manifest = '/manifests/manifest-dashboard.json';
     $title = 'Dashboard - EOW PWA Demo';
     $icon = '/icons/dashboard.svg';
     $themeColor = '#6b7280';
 } elseif ($modal === 'settings') {
-    $manifest = 'manifests/manifest-settings.json';
+    $manifest = '/manifests/manifest-settings.json';
     $title = 'Settings - EOW PWA Demo';
     $icon = '/icons/settings.png';
     $themeColor = '#8b4513';
-} else {
-    $manifest = 'manifests/manifest.json';
-    $title = 'EOW PWA Demo';
-    $icon = '/icons/dashboard.svg';
-    $themeColor = '#6b7280';
 }
 
 
@@ -72,12 +67,7 @@ if ($route !== 'main' && !$modal) {
                     <img src="/icons/settings.png" alt="Settings" class="button-icon">
                     <span>Settings</span>
                 </button>
-                <a href="/manifests/manifest-dashboard.json" target="_blank" rel="noopener noreferrer">
-                    Install Dashboard App
-                </a>
-                <a href="/manifests/manifest-settings.json" target="_blank" rel="noopener noreferrer">
-                    Install Settings App
-                </a>
+                
 
             </div>
             
