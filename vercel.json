@@ -6,15 +6,15 @@
   },
   "rewrites": [
     {
-      "source": "/dashboard/:path*",
+      "source": "/dashboard/",
       "destination": "/api/dashboard/index.php"
     },
     {
-      "source": "/settings/:path*",
+      "source": "/settings/",
       "destination": "/api/settings/index.php"
     },
     {
-      "source": "/:path*",
+      "source": "/",
       "destination": "/api/index.php"
     }
   ]
