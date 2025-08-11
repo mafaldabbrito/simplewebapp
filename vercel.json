@@ -6,16 +6,16 @@
   },
   "rewrites": [
     {
-      "source": "/service-worker.js",
-      "destination": "/service-worker.js"
-    },
-    {
       "source": "/dashboard",
       "destination": "/api/dashboard/index.php"
     },
     {
       "source": "/settings",
       "destination": "/api/settings/index.php"
+    },
+    {
+      "source": "/service-worker.js",
+      "destination": "/service-worker.js"
     },
     {
       "source": "/",
