@@ -6,6 +6,10 @@
   },
   "rewrites": [
     {
+      "source": "/service-worker.js",
+      "destination": "/service-worker.js"
+    },
+    {
       "source": "/dashboard",
       "destination": "/api/dashboard/index.php"
     },
