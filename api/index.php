@@ -44,7 +44,7 @@ switch ($view) {
     <meta name="theme-color" content="<?= htmlspecialchars($themeColor) ?>" />
 </head>
 <body>
-    <?php if ($route === 'main' || !isset($_GET['page'])): ?>
+<?php if ($view === 'main'): ?>
     <!-- Main Page -->
     <div id="main-page" class="main-page">
         <header class="main-header">
@@ -54,123 +54,79 @@ switch ($view) {
         
         <main class="main-content">
             <div class="button-container">
-                <button id="dashboard-btn" class="app-button dashboard-button">
+                <a href="/dashboard" class="app-button dashboard-button">
                     <img src="/icons/dashboard.svg" alt="Dashboard" class="button-icon">
                     <span>Dashboard</span>
-                </button>
+                </a>
                 
-                <button id="settings-btn" class="app-button settings-button">
+                <a href="/settings" class="app-button settings-button">
                     <img src="/icons/settings.png" alt="Settings" class="button-icon">
                     <span>Settings</span>
-                </button>
-                
-
-            </div>
-            
-            <!-- Window Management Permission -->
-            <div id="window-placement" class="permission-section" style="display: none;">
-                <p>This app needs window management permissions for advanced window controls.</p>
-                <button id="window-placement-btn" class="btn btn-primary">Grant Window Management Permission</button>
+                </a>
             </div>
         </main>
     </div>
 
-    <!-- Dashboard Modal -->
-    <div id="dashboard-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
+<?php elseif ($view === 'dashboard'): ?>
+    <!-- Dashboard Standalone Page -->
+    <section id="dashboard" class="section active">
+        <div class="container">
+            <div class="card">
                 <h2>Dashboard</h2>
-                <div class="window-controls">
-                    <button class="window-btn minimize-btn" id="min-button">&#8722;</button>
-                    <button class="window-btn maximize-btn" id="max-button">&#9744;</button>
-                    <button class="window-btn restore-btn" id="restore-button">&#9634;</button>
-                    <button class="window-btn close-btn" id="close-button" data-modal="dashboard-modal">&times;</button>
+                <p>Welcome to your dashboard!</p>
+                
+                <div class="counter-section">
+                    <h3>Counter</h3>
+                    <div class="counter-display">
+                        <span id="counter">0</span>
+                    </div>
+                    <div class="counter-controls">
+                        <button id="decrement-btn" class="btn btn-danger">-</button>
+                        <button id="reset-btn" class="btn btn-secondary">Reset</button>
+                        <button id="increment-btn" class="btn btn-success">+</button>
+                    </div>
                 </div>
             </div>
-            <div class="modal-body">
-                <!-- Dashboard Section -->
-                <section id="dashboard" class="section active">
-                    <div class="container">
-                        <div class="card">
-                            <h2>Dashboard</h2>
-                            <p>Welcome to your dashboard!</p>
-                            
-                            <div class="counter-section">
-                                <h3>Counter</h3>
-                                <div class="counter-display">
-                                    <span id="counter">0</span>
-                                </div>
-                                <div class="counter-controls">
-                                    <button id="decrement-btn" class="btn btn-danger">-</button>
-                                    <button id="reset-btn" class="btn btn-secondary">Reset</button>
-                                    <button id="increment-btn" class="btn btn-success">+</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Settings Modal -->
-    <div id="settings-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
+<?php elseif ($view === 'settings'): ?>
+    <!-- Settings Standalone Page -->
+    <section id="settings" class="section active">
+        <div class="container">
+            <div class="card">
                 <h2>Settings</h2>
-                <div class="window-controls">
-                    <button class="window-btn minimize-btn" id="settings-min-button">&#8722;</button>
-                    <button class="window-btn maximize-btn" id="settings-max-button">&#9744;</button>
-                    <button class="window-btn restore-btn" id="settings-restore-button">&#9634;</button>
-                    <button class="window-btn close-btn" id="settings-close-button" data-modal="settings-modal">&times;</button>
+                <p>Configure your application preferences here.</p>
+                
+                <div class="settings-group">
+                    <h3>Theme</h3>
+                    <select id="theme-select" class="form-control">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                        <option value="auto">Auto</option>
+                    </select>
+                </div>
+
+                <div class="settings-group">
+                    <h3>Notifications</h3>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="notifications-enabled" checked>
+                        Enable notifications
+                    </label>
                 </div>
             </div>
-            <div class="modal-body">
-                <!-- Settings Section -->
-                <section id="settings" class="section active">
-                    <div class="container">
-                        <div class="card">
-                            <h2>Settings</h2>
-                            <p>Configure your application preferences here.</p>
-                            
-                            <div class="settings-group">
-                                <h3>Theme</h3>
-                                <select id="theme-select" class="form-control">
-                                    <option value="light">Light</option>
-                                    <option value="dark">Dark</option>
-                                    <option value="auto">Auto</option>
-                                </select>
-                            </div>
-
-                            <div class="settings-group">
-                                <h3>Notifications</h3>
-                                <label class="checkbox-label">
-                                    <input type="checkbox" id="notifications-enabled" checked>
-                                    Enable notifications
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
         </div>
-    </div>
+    </section>
+<?php endif; ?>
 
-    <?php endif; ?>
-
-    <script src="/script.js"></script>
-    
-    <script>
-        // Service Worker registration
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/service-worker.js')
-                .then(function(registration) {
-                    console.log('Service Worker registered successfully:', registration.scope);
-                })
-                .catch(function(error) {
-                    console.log('Service Worker registration failed:', error);
-                });
-        }
-    </script>
+<script src="/script.js"></script>
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered:', reg.scope))
+            .catch(err => console.error('Service Worker registration failed:', err));
+    }
+</script>
 </body>
+
 </html>
