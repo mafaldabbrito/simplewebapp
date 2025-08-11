@@ -7,11 +7,11 @@
   "rewrites": [
     {
       "source": "/dashboard",
-      "destination": "/api/dashboard/index.php"
+      "destination": "/api/index.php"
     },
     {
       "source": "/settings",
-      "destination": "/api/settings/index.php"
+      "destination": "/api/index.php"
     },
     {
       "source": "/service-worker.js",
