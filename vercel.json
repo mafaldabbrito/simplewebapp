@@ -1,13 +1,25 @@
 {
   "functions": {
-    "*.php": {
+    "api/*.php": {
       "runtime": "vercel-php@0.7.4"
     }
   },
   "rewrites": [
     {
+      "source": "/service-worker.js",
+      "destination": "/service-worker.js"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/api/dashboard/index.php"
+    },
+    {
+      "source": "/settings",
+      "destination": "/api/settings/index.php"
+    },
+    {
       "source": "/",
-      "destination": "/index.php"
+      "destination": "/api/index.php"
     }
   ]
 }
