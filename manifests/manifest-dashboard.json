@@ -1,6 +1,6 @@
 {
   "id": "/dashboard",
-  "name": "Dashboard - EOW PWA Demo",
+  "name": "Dashboard",
   "short_name": "Dashboard",
   "start_url": "/dashboard",
   "display": "standalone",
