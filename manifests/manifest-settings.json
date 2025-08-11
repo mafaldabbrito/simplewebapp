@@ -1,10 +1,10 @@
 {
-  "id": "/?modal=settings",
+  "id": "/settings",
   "name": "Settings - EOW PWA Demo",
   "short_name": "Settings",
-  "start_url": "/?modal=settings",
+  "start_url": "/settings",
   "display": "standalone",
-  "scope": "/?modal=settings",
+  "scope": "/settings",
   "background_color": "#ffffff",
   "theme_color": "#8b4513",
   "icons": [

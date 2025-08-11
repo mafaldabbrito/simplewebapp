@@ -1,10 +1,10 @@
 {
-  "id": "/?modal=dashboard",
+  "id": "/dashboard",
   "name": "Dashboard - EOW PWA Demo",
   "short_name": "Dashboard",
-  "start_url": "/?modal=dashboard",
+  "start_url": "/dashboard",
   "display": "standalone",
-  "scope": "/?modal=dashboard",
+  "scope": "/dashboard",
   "background_color": "#ffffff",
   "theme_color": "#6b7280",
   "icons": [
