@@ -1,24 +1,15 @@
 <?php
-$requestUri = $_SERVER['REQUEST_URI']; // e.g. "/dashboard/" or "/settings/"
-$scriptName = $_SERVER['SCRIPT_NAME']; // e.g. "/index.php"
+// Get path without query string
+$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// Remove query string
-$path = parse_url($requestUri, PHP_URL_PATH);
-
-// Optionally remove script directory prefix if any
-$basePath = dirname($scriptName);
-if (strpos($path, $basePath) === 0) {
-    $path = substr($path, strlen($basePath));
-}
-
-// Clean slashes
+// Remove leading/trailing slashes
 $path = trim($path, '/');
 
-// Use the first segment as your view
+// First segment of the path determines the view
 $segments = explode('/', $path);
 $view = $segments[0] ?: 'main';
-$view = $_GET['view'] ?? 'main';
 
+// Decide which manifest & metadata to serve
 switch ($view) {
     case 'dashboard':
         $manifest = '/manifests/manifest-dashboard.json';
@@ -26,12 +17,14 @@ switch ($view) {
         $icon = '/icons/dashboard.svg';
         $themeColor = '#6b7280';
         break;
+
     case 'settings':
         $manifest = '/manifests/manifest-settings.json';
         $title = 'Settings - EOW PWA Demo';
         $icon = '/icons/settings.png';
         $themeColor = '#8b4513';
         break;
+
     default:
         $manifest = '/manifests/manifest-main.json';
         $title = 'EOW PWA Demo';
