@@ -6,11 +6,11 @@
   },
   "rewrites": [
     {
-      "source": "/dashboard/",
+      "source": "/dashboard",
       "destination": "/api/dashboard/index.php"
     },
     {
-      "source": "/settings/",
+      "source": "/settings",
       "destination": "/api/settings/index.php"
     },
     {
