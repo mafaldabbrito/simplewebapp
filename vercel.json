@@ -10,8 +10,8 @@
       "destination": "/api/index.php"
     },
     {
-      "source": "/index.php",
-      "destination": "/api/index.php"
+      "source": "/api/:path*",
+      "destination": "/api/:path*/index.php"
     }
   ]
 }
