@@ -1,6 +1,6 @@
 {
   "id": "/settings",
-  "name": "Settings - EOW PWA Demo",
+  "name": "Settings",
   "short_name": "Settings",
   "start_url": "/settings",
   "display": "standalone",
@@ -9,8 +9,8 @@
   "theme_color": "#8b4513",
   "icons": [
    {
-      "src": "/icons/logo-eow-icon.png",
-      "sizes": "192x192",
+      "src": "/icons/settings.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     }
