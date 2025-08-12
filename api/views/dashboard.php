@@ -12,6 +12,6 @@
 
 <script>
 document.getElementById('open-window-btn').addEventListener('click', function() {
-    window.open('/settings', '_self', 'width=400,height=300');
+    window.open('/settings', '_blank', 'width=400,height=300');
 });
 </script>
