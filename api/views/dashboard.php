@@ -12,6 +12,6 @@
 
 <script>
 document.getElementById('open-window-btn').addEventListener('click', function() {
-    window.open('/new-window.html', '_blank', 'width=400,height=300');
+    window.open('/api/views/new_window.php', '_blank', 'width=400,height=300');
 });
 </script>
