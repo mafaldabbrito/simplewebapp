@@ -14,8 +14,9 @@
 </section>
 
 <script>
+// Alternative using window.location.assign
 document.getElementById('same-window-btn').addEventListener('click', function() {
-    window.location.href = '/settings';
+    window.location.assign('/settings');
 });
 document.getElementById('open-window-btn').addEventListener('click', function() {
     window.open('/settings', '_blank', 'width=400,height=300');
