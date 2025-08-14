@@ -15,7 +15,7 @@
 
 <script>
 document.getElementById('same-window-btn').addEventListener('click', function() {
-    window.open('/settings', '_self', 'width=400,height=300');
+    window.location.href = '/settings';
 });
 document.getElementById('open-window-btn').addEventListener('click', function() {
     window.open('/settings', '_blank', 'width=400,height=300');
